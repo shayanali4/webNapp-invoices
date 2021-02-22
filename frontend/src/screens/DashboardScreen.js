@@ -13,8 +13,6 @@ function DashboardScreen () {
                       What you want to do 
                     </h3>
                     <div className="page_single layout_fullwidth_padding">
-                      <div id="dvMsg" className="success" style={{display: 'none'}}>Lead details saved successfully.<a onclick="$('#dvMsg').hide();"><img src="images/icons/black/menu_close.png" style={{width: '8%', display: 'inline', float: 'right', marginTop: '-2px'}} /></a>
-                      </div>
                       <Link to="/create" className="homepage_button btn btn-primary btn-lg btn-block">
                         Create Invoice</Link>
                       <Link to="/invoices" className="homepage_button btn btn-primary btn-lg btn-block">

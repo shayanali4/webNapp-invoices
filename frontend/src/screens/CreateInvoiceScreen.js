@@ -18,8 +18,6 @@ function CreateInvoiceScreen(props) {
                     Enter client details here
                   </h3>
                   <div className="page_single layout_fullwidth_padding">
-                    <div id="dvMsg" className="success" style={{display: 'none'}}>Lead details saved successfully.<a onclick="$('#dvMsg').hide();"><img src="images/icons/black/menu_close.png" style={{width: '8%', display: 'inline', float: 'right', marginTop: '-2px'}} /></a>
-                    </div>
                     <div className="contactform" id="dvform">
                       <div className="radio">
                         <input defaultChecked type="radio" id="old" name="client" defaultValue="Old Client" />

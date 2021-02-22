@@ -3,11 +3,12 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import userRouter from './routers/userRouter.js'
 import invoiceRouter from './routers/invoiceRouter.js';
+import cors from 'cors';
 
 dotenv.config();
 
 const app = express();
-
+app.use(cors()) // Use this after the variable declaration
 app.use(express.json({ extended: false }));
 app.use(express.urlencoded({ extended: true }));
 

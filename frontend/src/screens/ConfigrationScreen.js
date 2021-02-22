@@ -1,7 +1,7 @@
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 
 function ConfigurationScreen(props) {
-  const history = useHistory();
+  // const history = useHistory();
     return (
 
       
