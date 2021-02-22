@@ -1,5 +1,5 @@
 {
-  "name": "e-shop",
+  "name": "invoices",
   "type": "module",
   "version": "1.0.0",
   "description": "",
@@ -8,15 +8,12 @@
     "start": "nodemon --watch backend --exec node --experimental-modules backend/server.js"
   },
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/shayanali4/E-Shop.git"
+    "type": "git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/shayanali4/E-Shop/issues"
   },
-  "homepage": "https://github.com/shayanali4/E-Shop#readme",
   "dependencies": {
     "D": "^1.0.0",
     "bcryptjs": "^2.4.3",
