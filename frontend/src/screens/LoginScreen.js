@@ -1,4 +1,4 @@
-import Axios from "axios";
+import axios from "axios";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 
@@ -9,7 +9,7 @@ function LoginScreen(props) {
 
   const submitHandler = async () => {
   try {
-    const { data } = await Axios.post('https://resume-maker1.herokuapp.com/api/users/signin', { userName, password });
+    const { data } = await axios.post('https://resume-maker1.herokuapp.com/api/users/signin/', { userName: "Shayan", password: 1234 });
     console.log("loggedIn User==>", data);
     // localStorage.setItem('userInfo', JSON.stringify(data));
     history.push("/dashboard");

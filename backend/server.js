@@ -16,6 +16,10 @@ mongoose.connect('mongodb+srv://admin:admin123@cluster0.gwgp8.mongodb.net/MyAcco
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
+}).then(
+    console.log("MongoDB Connected")
+).catch((err) => {
+    console.log("mongo error",err)
 });
 
 app.use('/api/users', userRouter);
