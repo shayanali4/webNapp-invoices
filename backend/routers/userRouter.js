@@ -32,7 +32,7 @@ userRouter.post('/signin', expressAsyncHandler(async (req, res) => {
                 userName: user.userName,
                 companyId: user.companyId,
                 status: user.status,
-                token: generateToken(user),
+                // token: generateToken(user),
             });
         return;
         }
