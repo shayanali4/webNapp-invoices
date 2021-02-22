@@ -650,7 +650,24 @@ ul.features_list_detailed li .feat_small_icon {
   font-size: 14px;
   font-weight: 700;
 }
-
+.log{
+    display: flex;
+    background-color: #ff4800 !important;
+    align-items: center;
+    justify-content: space-between;
+}
+.log i{
+  color: white;
+  font-size: 20px;
+  margin: 10px;
+}
+.danger {
+  padding: 10px;
+  background-color: #fd1d1d;
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+}
 .jconfirm .jconfirm-box div.jconfirm-title-c .jconfirm-title {
   color: #000 !important;
   font-weight: 600;
