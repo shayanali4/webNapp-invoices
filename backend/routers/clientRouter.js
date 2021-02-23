@@ -1,6 +1,5 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
-import bcrypt from 'bcryptjs';
 import Client from '../models/clientModel.js';
 import data from '../data.js';
 
