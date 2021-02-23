@@ -711,15 +711,21 @@ ul.features_list_detailed li .feat_small_icon {
   background-color: #37B6FF;
   color: #000;
 }
-
+.radio-options{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
 .radio {
   display: flex;
   align-items: center;
+  margin-right: 15px;
 }
 
 .radio label {
   font-weight: 500;
   margin-left: 5px;
+  margin-top: 0;
 }
 
 .old-client {
@@ -852,3 +858,26 @@ ul.features_list_detailed li .feat_small_icon {
   min-width: 100px;
 }
 
+/* Alert */
+.loading{
+    display: block !important;
+}
+.success{
+    color: #20a020;
+}
+.error{
+    color: #a02020;
+}
+.alert{
+    padding: 1rem;
+    border: 0.1rem solid transparent;
+    border-radius: 0.5rem;
+}
+.alert-info{
+    color: #2020a0;
+    background-color: #e0e0ff;
+}
+.alert-danger{
+    color: #a02020;
+    background-color: #ffe0e0e0;
+}

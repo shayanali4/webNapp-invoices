@@ -1,44 +1,25 @@
-import Axios from "axios";
-import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Loadingbox from "../components/LoadingBox";
+import { signin } from "../actions/userActions";
+import MessageBox from "../components/MessageBox";
 
 function LoginScreen(props) {
-  const history = useHistory();
-  let  user = localStorage.getItem('user') ?
-      JSON.parse(localStorage.getItem('user'))
-      : null;
-  if (user) {
-    history.push("/dashboard");
-  }
+
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(false);
-
-  const submitHandler = async () => {
-  // try {
-  //   const { data } = await Axios.post('https://resume-maker1.herokuapp.com/api/users/signin/', { userName: "Shayan", password: 1234 });
-  //   console.log("loggedIn User==>", data);
-  //   history.push("/dashboard");
-  //   } catch (err) {
-  //   console.log("Error==>", err);
-  //   }
-  Axios({
-  method: 'post',
-  url: 'https://resume-maker1.herokuapp.com/api/users/signin',
-  data: {
-    userName,
-    password
-  }
-  }).then((success) => {
-    user = success.data;
-    console.log(user);
-    localStorage.setItem('user', JSON.stringify(user));
-    history.push("/dashboard");
-  }).catch((err) => {
-    console.log("error", err);
-    setError(true);
-  });
-  }
+  const userSignin = useSelector((state) => state.userSignin);
+  const { userInfo, loading, error } = userSignin;    
+    
+    const dispatch = useDispatch();
+    const submitHandler = () => {
+        dispatch(signin(userName, password));
+    };
+    useEffect(() => {
+        if (userInfo) {
+            props.history.push('/dashboard');
+        }
+    }, [props.history, userInfo]);
     return (
       <div id="pages_maincontent">
         <h2 className="page_title" >
@@ -49,10 +30,12 @@ function LoginScreen(props) {
           Login here
         </h3>
         <div className="page_single layout_fullwidth_padding">
-          {error ?
+          {/* {error ?
             <div id="dvMsg" className="danger" style={{ display: 'block' }}>Invalid email or password.
           </div>
-            : <></> }         
+            : <></> }          */}
+          {loading && <Loadingbox/>}
+                {error && <MessageBox variant="danger">{error}</MessageBox>}
           <div className="contactform" id="dvform">
             <div className="form_row">
               <label>UserName: </label>

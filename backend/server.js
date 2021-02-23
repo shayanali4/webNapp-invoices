@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import userRouter from './routers/userRouter.js'
+import clientRouter from './routers/clientRouter.js'
 import invoiceRouter from './routers/invoiceRouter.js';
 import cors from 'cors';
 
@@ -23,6 +24,7 @@ mongoose.connect('mongodb+srv://admin:admin123@cluster0.gwgp8.mongodb.net/MyAcco
 });
 
 app.use('/api/users', userRouter);
+app.use('/api/clients', clientRouter);
 app.use('/api/invoices', invoiceRouter);
 
 app.get('/', (req, res) => {

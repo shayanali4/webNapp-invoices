@@ -1,4 +1,17 @@
-function  InvoiceDetailsScreen () {
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+function InvoiceDetailsScreen(props) {
+  const selectedClient = useSelector((state) => state.choosenClientInfo);
+  const { choosenClient } = selectedClient;    
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!selectedClient) {
+      props.history.push('/create');
+    }
+  }, [props.history, selectedClient]);
+  console.log("choosen==>",choosenClient);
     return (
 
       
@@ -10,25 +23,27 @@ function  InvoiceDetailsScreen () {
                 <h3 id="dvResellerName" >
                   Enter invoice details here
                 </h3>
-                <div className="page_single layout_fullwidth_padding">
-                  <div className="client-details">
+        <div className="page_single layout_fullwidth_padding">
+          {choosenClient ?
+          <div className="client-details">
                     <div>
                       <label>Name :</label>
-                      <p>Customer Name</p>
+                      <p>{choosenClient.clientName}</p>
                     </div>
                     <div>
                       <label>Email :</label>
-                      <p>Customer Email</p>
+                      <p>{choosenClient.email}</p>
                     </div>
                     <div>
                       <label>Phone :</label>
-                      <p>Customer Phone</p>
+                      <p>{choosenClient.phone}</p>
                     </div>
                     <div>
                       <label>ABN :</label>
-                      <p>Customer ABN</p>
+                      <p>{choosenClient.ABN}</p>
                     </div>
-                  </div>
+                  </div>:<></>}
+                  
                   <ul className="list">
                     <li>
                       <div>
