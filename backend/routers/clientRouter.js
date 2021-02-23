@@ -7,8 +7,6 @@ import data from '../data.js';
 const clientRouter = express.Router();
 
 clientRouter.get('/', expressAsyncHandler(async (req, res) => {
-    // const createdUsers = await User.insertMany(data.users);
-    // res.send({ createdUsers });
     const clients = await Client.find({});
     res.send({ clients });    
 }));
@@ -16,8 +14,6 @@ clientRouter.get('/', expressAsyncHandler(async (req, res) => {
 clientRouter.get('/seed', expressAsyncHandler(async (req, res) => {
     const createdClients = await Client.insertMany(data.clients);
     res.send({ createdClients });
-    // const clients = await Client.find({});
-    // res.send({ clients });    
 }));
 
 clientRouter.post('/create', expressAsyncHandler(async (req, res) => {
