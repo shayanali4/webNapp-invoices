@@ -33,6 +33,18 @@ const data = {
             ABN: 354166168514,
         },
     ],
+    services: [
+        {
+            shortDescription: 'Service # 1',
+            longDescription: 'This is long Description of Service # 1',
+            price: 56
+        },
+        {
+            shortDescription: 'Service # 2',
+            longDescription: 'This is long Description of Service # 2',
+            price: 89
+        },
+    ],
     invoices: [
         {
             invoiceNumber: 1,

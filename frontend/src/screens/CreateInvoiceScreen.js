@@ -58,14 +58,13 @@ function CreateInvoiceScreen(props) {
     <div id="pages_maincontent">
       <h2 className="page_title">
         <i onClick={props.history.goBack} class="fa fa-chevron-left back-ico" aria-hidden="true"></i>
-
-                    <i className="fa fa-plus" aria-hidden="true" />
-                    &nbsp;Create Invoice
-                  </h2>
-                  <h3 id="dvResellerName" >
-                    Enter client details here
-                  </h3>
-                  <div className="page_single layout_fullwidth_padding">
+        <i className="fa fa-plus" aria-hidden="true" />
+          &nbsp;Create Invoice
+      </h2>
+      <h3 id="dvResellerName" >
+        Enter client details here
+      </h3>
+      <div className="page_single layout_fullwidth_padding">
         <div className="contactform" id="dvform">
           <div className="radio-options">
             <div className="radio">
@@ -91,7 +90,6 @@ function CreateInvoiceScreen(props) {
                   )}
                   </>
                     : <></>}
-                  
                 </select>                                        
               </div>
             </div> : clientStatus === 'new' ?
@@ -127,12 +125,10 @@ function CreateInvoiceScreen(props) {
                     type="number" id="ABN" placeholder="Enter ABN" className="form_input required" />
               </div>
             </div>
-            :<></>}
-                      
-                      
-                  <input onClick={()=>submitHandler()} type="button" id="submit" name="submit" className="form_submit" defaultValue="Next" />
-                    </div>
-                  </div>
+            :<></>}     
+          <input onClick={() => submitHandler()} type="button" id="submit" name="submit" className="form_submit" defaultValue="Next" />
+        </div>
+      </div>
     </div>
     );
   }

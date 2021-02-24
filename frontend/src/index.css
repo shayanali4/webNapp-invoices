@@ -831,6 +831,8 @@ ul.features_list_detailed li .feat_small_icon {
   justify-content: space-between;
   height: 60px;
   border-bottom: 1px solid #80808073;
+  margin-top: 10px;
+
 }
 
 .list>li i{

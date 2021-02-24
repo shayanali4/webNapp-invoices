@@ -1,17 +1,58 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { serviceList } from "../actions/invoiceActions";
 
 function InvoiceDetailsScreen(props) {
+  const userSignin = useSelector((state) => state.userSignin);
+  const { userInfo } = userSignin;  
+  // const [services, setServices] = useState([]);
+  const [serviceIndex, setServiceIndex] = useState();
+  const [selectedService, setSelectedService] = useState({
+    shortDescription: '',
+    longDescription: '',
+    price:''
+  });
+  const [listItems, setListItems] = useState([]);
+  const servicesInfo = useSelector((state) => state.serviceInfo);
+  if (servicesInfo.servicesList) {
+    // console.log("services", servicesInfo.servicesList)
+    // setServices(servicesInfo.servicesList);
+  }
+
   const selectedClient = useSelector((state) => state.choosenClientInfo);
   const { choosenClient } = selectedClient;    
   const dispatch = useDispatch();
+
+
+  useEffect(() => {
+    if (!userInfo) {
+      props.history.push('/');
+    }
+  }, [props.history, userInfo]);
+
+  useEffect(() => {
+    dispatch(serviceList());
+  }, [dispatch]);
 
   useEffect(() => {
     if (!selectedClient) {
       props.history.push('/create');
     }
   }, [props.history, selectedClient]);
-  console.log("choosen==>",choosenClient);
+
+  useEffect(() => {
+    if (servicesInfo.servicesList) {
+      setSelectedService(servicesInfo.servicesList[serviceIndex])
+      console.log('Selected service==>', selectedService);
+    }
+  }, [serviceIndex, servicesInfo, selectedService]);
+  
+  const addToList = () => {
+    setListItems(prevArray => [...prevArray, selectedService]);
+  }
+    // console.log("list items==>", listItems);
+
+  // console.log("choosen==>",choosenClient);
     return (
 
       
@@ -42,69 +83,57 @@ function InvoiceDetailsScreen(props) {
                       <label>ABN :</label>
                       <p>{choosenClient.ABN}</p>
                     </div>
-                  </div>:<></>}
-                  
-                  <ul className="list">
-                    <li>
-                      <div>
-                        <i className="fa fa-file" aria-hidden="true" />
-                      </div>
-                      <div className="details">
-                        <div><b>Invoice Number 1</b></div>
-                        <div>
-                          <span className="first">
-                            Phone
+            </div> : <></>}
+          
+          {listItems.length !== 0 ?
+            <ul className="list">
+              {listItems.map((v, i) =>
+                <li key={i}>
+                <div>
+                  <i className="fa fa-file" aria-hidden="true" />
+                </div>
+                <div className="details">
+                  <div><b>{v.shortDescription}</b></div>
+                  <div>
+                    {/* <span className="first">
+                      Phone
                           </span>
-                          <span>
-                            ABN
-                          </span>
-                        </div>
-                      </div>
-                      <div className="actions">
-                        <i className="fa fa-pencil-square" aria-hidden="true" />
-                        <i className="fa fa-trash" aria-hidden="true" />
-                      </div>
-                    </li>
-                    <li>
-                      <div>
-                        <i className="fa fa-file" aria-hidden="true" />
-                      </div>
-                      <div className="details">
-                        <div><b>Invoice Number 2</b></div>
-                        <div>
-                          <span className="first">
-                            Phone
-                          </span>
-                          <span>
-                            ABN
-                          </span>
-                        </div>
-                      </div>
-                      <div className="actions">
-                        <i className="fa fa-pencil-square" aria-hidden="true" />
-                        <i className="fa fa-trash" aria-hidden="true" />
-                      </div>
-                    </li>
-                  </ul>
+                    <span>
+                      ABN
+                          </span> */}
+                      {v.longDescription} <b>( $ {v.price} )</b>
+                  </div>
+                </div>
+                <div className="actions">
+                    <i onClick={() => setListItems(listItems.filter(item => item.shortDescription !== v.shortDescription))}
+                      className="fa fa-trash" aria-hidden="true" />
+                </div>
+              </li>
+              )}        
+            </ul> : <></>}
                   <div className="contactform" id="dvform">
                     <div className="form_row">
                       <label htmlFor="Select Client">Invoice Service: </label>
-                      <select className="form-select form-select-sm" aria-label=".form-select-sm example">
-                        <option selected>Please select invoice service</option>
-                        <option value={1}>Service # 1</option>
-                        <option value={2}>Service # 2</option>
-                        <option value={3}>Service # 3</option>
+              <select onChange={(e) => setServiceIndex(e.target.value)}
+                className="form-select form-select-sm" aria-label=".form-select-sm example">
+                <option selected>Please select invoice service</option>
+                        {servicesInfo.servicesList? <>
+                          {servicesInfo.servicesList.map((v, i) =>
+                            <option key={i} id={i} value={i}>{v.shortDescription}</option>
+                        )}
+                        </>
+                    : <></>}
                       </select>
                     </div>
                     <div className="form_row">
                       <label htmlFor="description">Description: </label>
-                      <textarea name="description" id="description" rows={10} placeholder="Enter description" defaultValue={""} />
+                      <textarea value={selectedService?selectedService.longDescription:''} name="description" id="description" rows={10} placeholder="Enter description" defaultValue={""} />
                     </div>
                     <div className="form_row">
                       <label htmlFor="amount">Amount: </label>
-                      <input type="number" name="amount" id="amount" defaultValue placeholder="Enter Amount" className="form_input required" />
+                      <input  value={selectedService?selectedService.price:''} type="number" name="amount" id="amount" defaultValue placeholder="Enter Amount" className="form_input required" />
                     </div>
-                    <input type="button" id="add" name="submit" className="form_submit" defaultValue="Add List Item" />
+                    <input onClick={()=>addToList()} type="button" id="add" name="submit" className="form_submit" defaultValue="Add List Item" />
                     <input type="button" id="submit" name="submit" className="form_submit" defaultValue="Generate Invoice" />
                   </div>
                 </div>

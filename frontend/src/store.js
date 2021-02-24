@@ -1,6 +1,6 @@
 import { applyMiddleware, createStore, compose, combineReducers } from "redux";
 import thunk from 'redux-thunk';
-import { clientListReducer, saveClient } from "./reducers/invoiceReducers";
+import { clientListReducer, saveClient, serviceListReducer } from "./reducers/invoiceReducers";
 import { userSigninReducer } from "./reducers/userReducer";
 
 const initialState = {
@@ -9,12 +9,16 @@ const initialState = {
             JSON.parse(localStorage.getItem('userInfo'))
             :null,
     },
+    serviceInfo: {
+        servicesLIst: [{}]
+    },
 
 };
 const reducer = combineReducers({
     userSignin: userSigninReducer,
     clientInfo: clientListReducer,
     choosenClientInfo: saveClient,
+    serviceInfo: serviceListReducer
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
