@@ -1,0 +1,387 @@
+.container-fluid {
+    background-color: #f8f8f8;
+    padding: 0px 50px;
+
+}
+.container-fluid .dvMainInvoice{
+    background-color: #fff;
+    max-width: 80% !important;
+    margin: auto;
+    padding: 100px;
+}
+.dvMainInvoice #tblSearch{
+    min-width: 100%;
+} 
+.dvMainInvoice table,
+.dvMainInvoice th,
+.dvMainInvoice tr,
+.dvMainInvoice td{
+    border: 0px;
+}
+.dvMainInvoice #tblSearch th{
+    background: #00CED1 !important;
+}
+.dvMainInvoice #tblSearch th>div{
+    padding-right: 5px 20px !important;
+    min-height: 30px !important;
+    padding: 15px !important;
+
+}
+.dvMainInvoice #tblSearch tr{
+    border-bottom: 1px solid gray;
+}
+.dvMainInvoice #tblSearch tr:hover,
+.dvMainInvoice #tblSearch td:hover{
+    background-color: lightgray !important;
+    color: black !important;
+    cursor: pointer;
+}
+ section div 
+    {float: 'left';
+         padding-right: '20px';
+         display: 'inline-block'; 
+         font-size: '19px';
+          padding: '7px';
+        }
+        #memo{
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        #memo div span{
+            color: '#0b4978';
+                 display: 'inline-block'; min-width: '20px';
+                
+        
+        }
+        .container-fluid  .second .dvMainInvoice hr{
+        
+        background-color: #FB5859;
+        height: 4px;
+        
+        } 
+        .container-fluid  .second .dvMainInvoice .section{
+            float: right;
+            text-align: right;
+            margin-top: 20px !important;
+
+
+
+        }
+        .container-fluid  .second .dvMainInvoice .invoice-section .first{
+
+display: block;
+color: #FB5859;
+font-size: 20px!important;
+font-weight: bold;  
+margin-top: -10px; 
+    
+    }
+    .container-fluid  .second .dvMainInvoice .section .second span{
+text-align: left;
+font-size: 18px;
+
+    }
+    .container-fluid  .second .dvMainInvoice .section1 div{
+        text-align: right;
+        font-weight: 18px;
+    }
+    .container-fluid  .second .dvMainInvoice .invoice-section div .first{
+      color: #FB5859;
+      font-size: 20px !important;
+    }
+
+        .container-fluid  .second .dvMainInvoice .below
+            {float: 'right';
+                 display: 'inline-block';
+                  text-align:"right"    ; 
+                  color: '#858585';
+                  font-weight: bold;
+                  font-size: 12px; 
+                  font-style: italic;
+                  margin-top: 10px;
+                  
+
+        }
+        .container-fluid  .second .dvMainInvoice .below #ctl04_lblGST{
+            padding: 20px;
+        } 
+        .container-fluid  .second .dvMainInvoice .items table thead .first{
+width: 75%;
+
+        }
+        .container-fluid  .second .dvMainInvoice .items table thead .first div{
+text-align: left;            
+                    }
+        .container-fluid  .second .dvMainInvoice .items table thead .second{
+            width: 75%;
+            
+                    }
+                    .container-fluid  .second .dvMainInvoice .items table thead .second div{
+                        text-align: right;            
+                                            }
+
+    .container-fluid  .second .dvMainInvoice .items table tbody tr .first{
+text-align: left;
+text-align: justify;
+    }
+    .container-fluid  .second .dvMainInvoice .items table tbody tr .second{
+        text-align: right;
+            }
+            .container-fluid  .second .dvMainInvoice .below div
+            {
+                
+                float: right;
+                display: inline;
+                text-align: right;
+                color:#858585 ;
+                font-weight: bold;
+                font-size: 12px;
+                font-style: italic;
+                margin-top: 10px;
+                
+                  }    
+
+            .container-fluid  .second .dvMainInvoice .sums{
+                position: relative;
+                margin-top: 40px;
+            }
+            .payment-info {
+                    font-size: 14px;
+                    color: #858585;
+                    font-style: italic;
+                    line-height: 1.5em;
+                          }
+            .container-fluid  .second .dvMainInvoice .sums  .row .col  #dvFooter .payment-info .second span
+            {
+             columns: black ;
+             font-weight: bold;
+            }
+.container-fluid  .second .dvMainInvoice .sums  .row .col  .first1{
+    width: 50%;
+    margin-left: auto;   
+
+}
+
+.container-fluid  .second .dvMainInvoice .sums  .row .col  .first1 tbody .amount-total .first{
+    width: 20%;
+    text-align: right;
+
+}
+.container-fluid  .second .dvMainInvoice .sums  .row .col  .first1 tbody .amount-total .second{
+    width: 80%;
+    text-align: right;
+    font-size: 28px;
+
+}
+.container-fluid  .second .dvMainInvoice .sums  .row .col  .first1 tbody .amount-total .td{
+    width: 80%;
+    text-align: right;
+    font-size: 28px;
+
+}
+.sums table tr.amount-total td {
+    background: #00CED1;
+    color: black;
+    /* font-family: Sanchez, Serif; */
+    font-size: 27px;
+    line-height: 1em;
+    padding: 7px !important;
+    font-weight: 500;
+}
+#memo div img{
+    width: 300px;
+}
+#memo  .second{
+}
+#memo  .second span {
+    font-size: 13px;
+}
+.sums table tr th, .sums table tr td {
+    min-width: 100px;
+    padding: 8px 3px;
+    text-align: right;
+}
+
+
+
+  
+
+
+
+
+        
+@media only screen and (max-width:600px){
+    .container-fluid{
+        padding: 0!important;
+    }
+    .container-fluid  .second .dvMainInvoice{
+        padding: 20px 10px;
+        min-width: 100% !important;
+        margin: 0 !important;
+        text-align: center !important;
+    } 
+    .dvMainInvoice #memo .second {
+        width: 100%;
+    }
+    .dvMainInvoice .sums .row>div{
+        width: 100% !important;
+    }
+    .container-fluid .second .dvMainInvoice .items table tbody tr .first {
+     width: 100%;
+    }
+    
+    #memo div img{
+        width: 100%;
+    }
+    .container-fluid  .second .dvMainInvoice .section1 div .first{
+        color: #FB5859;
+        font-size: 24px};
+    .container-fluid  .second .dvMainInvoice .section1 div{
+        font-weight: 18px;
+    }
+    .container-fluid  .second .dvMainInvoice .sums  .row .col  .first1 tbody .amount-total
+     th{
+        width:0 !important;
+        background-color: white !important;
+    }
+    .container-fluid  .second .dvMainInvoice .section1 div{
+        text-align: center;
+        font-weight: 18px;
+    }
+    .container-fluid  .second .dvMainInvoice .sums  .row .col  .first1 tbody .amount-total .second{
+        width: 100%;
+        text-align: right;
+        font-size: 20px;
+    
+    }
+    .container-fluid  .second .dvMainInvoice .below div
+        {
+            
+            float: right;
+            display: inline;
+            text-align: center;
+            color:#858585 ;
+            font-weight: bold;
+            font-size: 12px;
+            font-style: italic;
+            margin-top: 10px;
+            
+              }    
+   
+   
+   
+   
+   
+               .sums .col{
+        flex: 0 0 100%;
+    }
+    .container-fluid  .second .dvMainInvoice .section1{
+        margin: 0px;
+        padding-left: 0px;
+    }
+
+
+
+
+.container-fluid .second .dvMainInvoice .items table .desc .first {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%!important;
+}
+    .sums table tr th, .sums table tr td {
+        min-width: 0px;
+        padding: 8px 0px;
+        text-align: right;
+    }
+    
+
+    
+
+
+    .container-fluid  .second .dvMainInvoice .sums  .row .col  .first1  .mob{
+        
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* .container-fluid .second .dvMainInvoice .sums .row .col .first1 tbody .amount-total .second {
+        width: 100%;
+        text-align: right;
+        font-size: 13px;
+    } */
+
+
+    
+    .container-fluid  .second .dvMainInvoice .items table .desc{
+    }
+    .container-fluid  .second .dvMainInvoice .items table .desc td{
+text-align: justify;    }
+
+
+.container-fluid  .second .dvMainInvoice .sums  .row .col  .first1 tbody .amount-total
+th{
+   width:0% !important;
+}
+
+
+    .container-fluid  .second .dvMainInvoice .section .first{
+
+        display: block;
+        color: #FB5859;
+        font-size: 34px;
+        font-weight: bold;  
+        margin-top: -10px; 
+            
+            }
+    .container-fluid  .second .dvMainInvoice .section{
+        float: left;
+        text-align: center;
+        margin-top: 20px;
+        width: 100%;
+    }
+}
+
+.sums .row{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+}
+.sums .row>div{}
+
+.admin-use{
+
+}
+.admin-use h4{
+    color: red;
+}
+.admin-use .send{
+}
+.admin-use .send button{
+    background: #008B8B !important;
+    border: none !important;
+    border-radius: 30px !important;
+    color: white;
+    padding: 5px 20px;
+    font-size: 15px;
+    margin: 5px;
+}
+.invoice-section{
+    padding-top: 20px!important;
+    margin: 0!important;
+}

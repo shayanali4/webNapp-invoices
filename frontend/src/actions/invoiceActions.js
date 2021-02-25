@@ -1,7 +1,7 @@
 import Axios from "axios";
 import { useSelector } from "react-redux";
 import { serverAddress } from "../constants/dbConstants";
-import { CLIENT_LIST_FAIL, CLIENT_LIST_REQUEST, CLIENT_LIST_SUCCESS, CLIENT_SAVE_FAIL, CLIENT_SAVE_REQUEST, CLIENT_SAVE_SUCCESS, SERVICE_LIST_FAIL, SERVICE_LIST_REQUEST, SERVICE_LIST_SUCCESS, SERVICE_SAVE_FAIL, SERVICE_SAVE_REQUEST, SERVICE_SAVE_SUCCESS } from "../constants/invoiceConstants";
+import { CLIENT_LIST_FAIL, CLIENT_LIST_REQUEST, CLIENT_LIST_SUCCESS, CLIENT_SAVE_FAIL, CLIENT_SAVE_REQUEST, CLIENT_SAVE_SUCCESS, INVOICE_SAVE_FAIL, INVOICE_SAVE_REQUEST, INVOICE_SAVE_SUCCESS, SERVICE_LIST_FAIL, SERVICE_LIST_REQUEST, SERVICE_LIST_SUCCESS, SERVICE_SAVE_FAIL, SERVICE_SAVE_REQUEST, SERVICE_SAVE_SUCCESS } from "../constants/invoiceConstants";
 
 
 // Client Actions
@@ -124,3 +124,25 @@ export const newservice = (shortDescription, longDescription, price) => async (d
         });
     }
 };
+
+// New Invoice
+export const newInvoice = (invoice) => async (dispatch) => {
+    dispatch({
+        type: INVOICE_SAVE_REQUEST,
+    });
+    try {
+        const { data } = await Axios.post(`${serverAddress}/api/invoices/new`, invoice);
+        console.log('createdInnvoice',data)
+        dispatch({
+            type: INVOICE_SAVE_SUCCESS,
+            payload: data.createdInvoice,
+        });
+     } catch (err) {
+        dispatch({
+            type: INVOICE_SAVE_FAIL,
+            payload: err.response && err.response.data.message ?
+                err.response.data.message : err.message,
+        });
+    }
+};
+

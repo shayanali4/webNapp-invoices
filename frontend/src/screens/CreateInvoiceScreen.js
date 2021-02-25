@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clientList, newclient, oldclient } from "../actions/invoiceActions";
+import Header from "../components/Header";
 
 function CreateInvoiceScreen(props) {
   const userSignin = useSelector((state) => state.userSignin);
@@ -55,6 +56,8 @@ function CreateInvoiceScreen(props) {
     }
   }, [clientIndex, clientsInfo]);
   return (
+    <>
+      <Header />
     <div id="pages_maincontent">
       <h2 className="page_title">
         <i onClick={props.history.goBack} class="fa fa-chevron-left back-ico" aria-hidden="true"></i>
@@ -129,7 +132,8 @@ function CreateInvoiceScreen(props) {
           <input onClick={() => submitHandler()} type="button" id="submit" name="submit" className="form_submit" defaultValue="Next" />
         </div>
       </div>
-    </div>
+      </div>
+    </>
     );
   }
 

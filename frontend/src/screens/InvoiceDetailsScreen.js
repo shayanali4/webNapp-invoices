@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { serviceList } from "../actions/invoiceActions";
+import { serviceList, newInvoice } from "../actions/invoiceActions";
+import Header from "../components/Header";
 
 function InvoiceDetailsScreen(props) {
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo } = userSignin;  
   // const [services, setServices] = useState([]);
   const [serviceIndex, setServiceIndex] = useState();
+  // const [invoice, setInvoice] = useState({});
   const [selectedService, setSelectedService] = useState({
     shortDescription: '',
     longDescription: '',
@@ -50,11 +52,25 @@ function InvoiceDetailsScreen(props) {
   const addToList = () => {
     setListItems(prevArray => [...prevArray, selectedService]);
   }
-    // console.log("list items==>", listItems);
 
-  // console.log("choosen==>",choosenClient);
+  const submitHandler = () => {
+
+    const generatedInvoice = {
+      clientName: choosenClient.clientName,
+      companyName: choosenClient.companyName,
+      email: choosenClient.email,
+      phone: choosenClient.phone,
+      address: choosenClient.address,
+      ABN: choosenClient.ABN,
+      servicesList: listItems,
+    };
+    dispatch(newInvoice(generatedInvoice));
+
+    props.history.push('/generate');
+  }
     return (
-
+      <>
+        <Header />
       
               <div id="pages_maincontent">
                 <h2 className="page_title" >
@@ -89,18 +105,11 @@ function InvoiceDetailsScreen(props) {
             <ul className="list">
               {listItems.map((v, i) =>
                 <li key={i}>
-                <div>
-                  <i className="fa fa-file" aria-hidden="true" />
-                </div>
+
                 <div className="details">
                   <div><b>{v.shortDescription}</b></div>
                   <div>
-                    {/* <span className="first">
-                      Phone
-                          </span>
-                    <span>
-                      ABN
-                          </span> */}
+
                       {v.longDescription} <b>( $ {v.price} )</b>
                   </div>
                 </div>
@@ -134,10 +143,11 @@ function InvoiceDetailsScreen(props) {
                       <input  value={selectedService?selectedService.price:''} type="number" name="amount" id="amount" defaultValue placeholder="Enter Amount" className="form_input required" />
                     </div>
                     <input onClick={()=>addToList()} type="button" id="add" name="submit" className="form_submit" defaultValue="Add List Item" />
-                    <input type="button" id="submit" name="submit" className="form_submit" defaultValue="Generate Invoice" />
-                  </div>
-                </div>
-              </div>
+                    <button onClick={()=>submitHandler()} className='generate-inv-btn'>Generate Invoice</button>
+            </div>
+          </div>
+        </div>
+      </>
 
     );
   }

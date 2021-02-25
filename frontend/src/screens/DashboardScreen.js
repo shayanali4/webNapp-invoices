@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {Link} from 'react-router-dom'
 import { signout } from '../actions/userActions';
+import Header from '../components/Header';
 function DashboardScreen(props) {
 
   const userSignin = useSelector((state) => state.userSignin);
@@ -19,8 +20,8 @@ function DashboardScreen(props) {
     }
     }, [props.history, userInfo]);
   return (
-       
-          
+    <>   
+    <Header />   
     <div id="pages_maincontent" >
       <div className="log">
         <h2 className="page_title" >
@@ -47,7 +48,8 @@ function DashboardScreen(props) {
           Configuration
         </Link>
       </div>
-    </div>
+      </div>
+    </>
     );
   }
 export default DashboardScreen;

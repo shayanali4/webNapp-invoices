@@ -1,4 +1,4 @@
-import { CLIENT_LIST_FAIL, CLIENT_LIST_REQUEST, CLIENT_LIST_SUCCESS, CLIENT_SAVE_FAIL, CLIENT_SAVE_REQUEST, CLIENT_SAVE_SUCCESS, SERVICE_LIST_FAIL, SERVICE_LIST_REQUEST, SERVICE_LIST_SUCCESS, SERVICE_SAVE_FAIL, SERVICE_SAVE_REQUEST, SERVICE_SAVE_SUCCESS } from "../constants/invoiceConstants";
+import { CLIENT_LIST_FAIL, CLIENT_LIST_REQUEST, CLIENT_LIST_SUCCESS, CLIENT_SAVE_FAIL, CLIENT_SAVE_REQUEST, CLIENT_SAVE_SUCCESS, INVOICE_SAVE_FAIL, INVOICE_SAVE_REQUEST, INVOICE_SAVE_SUCCESS, SERVICE_LIST_FAIL, SERVICE_LIST_REQUEST, SERVICE_LIST_SUCCESS, SERVICE_SAVE_FAIL, SERVICE_SAVE_REQUEST, SERVICE_SAVE_SUCCESS } from "../constants/invoiceConstants";
 
 // Client Reducers
 
@@ -48,6 +48,23 @@ export const serviceListReducer = (state = {}, action) => {
                 servicesList: action.payload.services
             };
         case SERVICE_LIST_FAIL:
+            return { loading: false, error: action.payload };
+        default:
+            return state;
+    }
+};
+
+export const selectedInvoiceReducer = (state = {}, action) => {
+    console.log("reducer", action.payload)
+    switch (action.type) {
+        case INVOICE_SAVE_REQUEST:
+            return { loading: true };
+        case INVOICE_SAVE_SUCCESS:
+            return {
+                loading: false,
+                selectedInvoice: action.payload
+            };
+        case INVOICE_SAVE_FAIL:
             return { loading: false, error: action.payload };
         default:
             return state;

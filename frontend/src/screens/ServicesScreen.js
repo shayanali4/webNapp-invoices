@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { newservice, serviceList } from "../actions/invoiceActions";
+import Header from "../components/Header";
 
 function ServicesScreen(props) {
 
@@ -36,6 +37,8 @@ function ServicesScreen(props) {
 
 
   return (
+    <>
+      <Header />
     <div id="pages_maincontent">
       <h2 className="page_title" >  
         <i className="fa fa-plus" aria-hidden="true" />
@@ -90,7 +93,8 @@ function ServicesScreen(props) {
           </div>          
         </div>        
       </div>      
-    </div>
+      </div>
+      </>
     );
   }
 export default ServicesScreen;

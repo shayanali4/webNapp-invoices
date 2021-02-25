@@ -1,9 +1,12 @@
 // import { useHistory } from "react-router-dom";
 
+import Header from "../components/Header";
+
 function ConfigurationScreen(props) {
   // const history = useHistory();
     return (
-
+      <>
+        <Header />
       
               <div id="pages_maincontent">
         <h2 className="page_title page1" >
@@ -57,7 +60,8 @@ function ConfigurationScreen(props) {
                     {/* Add form here */}
                   </div>
                 </div>
-              </div>
+        </div>
+      </>
     );
   }
 

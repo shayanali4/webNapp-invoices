@@ -1,5 +1,9 @@
+import Header from "../components/Header";
+
 function  InvoicesScreen (props) {
-    return (
+  return (
+      <>
+      <Header />
               <div id="pages_maincontent">
                 <h2 className="page_title" >
                   <i className="fa fa-bars" aria-hidden="true" />
@@ -112,7 +116,8 @@ function  InvoicesScreen (props) {
                     </li>
                   </ul>
                 </div>
-              </div>
+      </div>
+      </>
     );
   }
     export default InvoicesScreen;

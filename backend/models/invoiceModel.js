@@ -2,12 +2,13 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const invoicesSchema = new mongoose.Schema({
-    invoiceNumber: {type: Number},
-    invoiceUniqueCompanyNumber: { type: Number},
-    clientDetails: {type: Schema.Types.ObjectId, ref: 'Client'},
-    companyDetails: {type: Schema.Types.ObjectId, ref: 'Company'},
-    invoiceItems: {type: Schema.Types.ObjectId, ref: 'InvoiceItem'},
-    totalAmount: {type: Number},
+    clientName: { type: String },
+    companyName: { type: String },
+    email: { type: String },
+    address: { type: String },
+    phone: { type: Number },
+    ABN: { type: Number },
+    servicesList: [Schema.Types.ObjectId],
 }, { 
     timestamps: true,
 });

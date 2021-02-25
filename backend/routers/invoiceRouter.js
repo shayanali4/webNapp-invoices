@@ -21,24 +21,20 @@ invoiceRouter.get('/seed', expressAsyncHandler(async (req, res) => {
     // res.send({ users });    
 }));
 
-// userRouter.post('/signin', expressAsyncHandler(async (req, res) => {
-//     const user = await User.findOne({ userName: req.body.userName });
-//     // console.log("user", user);
-//     if (user) {
-//         if (bcrypt.compareSync(req.body.password, user.password)) {
-//             res.send({
-//                 _id: user._id,
-//                 userName: user.userName,
-//                 companyId: user.companyId,
-//                 status: user.status,
-//                 token: generateToken(user),
-//             });
-//         return;
-//         }
-//     }
-//     res.status(401).send({
-//         message: 'Invalid User Name or password'});
-//     })
-// );
+invoiceRouter.post('/new', expressAsyncHandler(async (req, res) => {
+    const newInvoice = new Invoice({
+        clientName: req.body.clientName,
+        companyName: req.body.companyName,
+        email: req.body.email,
+        phone: req.body.phone,
+        address: req.body.address,
+        ABN: req.body.ABN,
+        servicesList: req.body.servicesList
+    });
+
+    const createdInvoice = await newInvoice.save();
+    console.log('createdInvoice console==>',createdInvoice)
+    res.send({ createdInvoice });  
+}));
 
 export default invoiceRouter;
