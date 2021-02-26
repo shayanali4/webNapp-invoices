@@ -38,6 +38,7 @@ import expressAsyncHandler from 'express-async-handler';
 import bcrypt from 'bcryptjs';
 import User from '../models/userModel.js';
 import data from '../data.js';
+import Client from '../models/ClientModel.js';
 
 
 const clientRouter = express.Router();
