@@ -25,7 +25,7 @@ mongoose.connect('mongodb+srv://admin:admin123@cluster0.gwgp8.mongodb.net/MyAcco
 });
 
 app.use('/api/users', userRouter);
-app.use('/api/clients', clientRouter);
+// app.use('/api/clients', clientRouter);
 app.use('/api/services', serviceRouter);
 app.use('/api/invoices', invoiceRouter);
 
