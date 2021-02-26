@@ -22,7 +22,8 @@ function LoginScreen(props) {
         }
     }, [props.history, userInfo]);
   return (
-      <>
+    <>
+      <Header />
         <div id="pages_maincontent">
           <h2 className="page_title" >
             <i className="fa fa-sign-in" aria-hidden="true" />
