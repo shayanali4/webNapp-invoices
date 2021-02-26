@@ -1,0 +1,201 @@
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+.modal.show {
+  display: block; /* Hidden by default */
+}
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 50%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+  border-radius: 10px;
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0} 
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+  color: black;
+  float: right;
+  font-size: 28px;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header{
+    padding: 2px 16px;
+    background-color: white;
+    color: black;
+    border-bottom: 1px solid gray;
+    border-top-left-radius: 10px !important;
+    border-top-right-radius: 10px !important;
+
+}
+.modal-header h2{
+    padding: 0 !important;
+}
+
+
+.modal-body {padding: 15px;}
+.modal-body .bitly{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 50%;
+}
+.modal-body .bitly button{
+    padding: 5px 15px;
+    font-size: 14px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    background-color: #37B6FF !important;
+    color: #000;
+}
+.modal-body .message{
+    margin-top: 10px;
+}
+.modal-body p{
+    font-size: 14px;
+}
+.modal-body .message textarea{
+    margin: 5px 0;
+    padding: 5px;
+    outline: none;
+    height: 100px;
+    border: 1px solid gray;
+    border-radius: 10px;
+}
+.modal-footer{
+    border-top: 1px solid gray;
+    padding: 2px 16px;
+    background-color: white;
+    color: black;
+    border-bottom-left-radius: 10px !important;
+    border-bottom-right-radius: 10px !important;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 10px;
+}
+.modal-footer h3{
+    padding: 0 !important;
+}
+.modal-footer button{
+    padding: 5px 15px;
+    font-size: 14px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    background-color: #37B6FF !important;
+    color: #000;
+    border-radius: 20px;
+}
+
+@media only screen and (max-width: 600px) {
+    .modal-content{
+    width: 100%;
+    text-align: left;
+    border-radius: 0px;
+    }
+    .modal-body {padding: 15px;}
+    .modal-body .bitly{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: space-around;
+
+    }
+    .modal-body .bitly button{
+
+    }
+    .modal-body .message{
+
+    }
+    .modal-body p{
+
+    }
+    .modal-body .message textarea{
+
+    }
+}
+
+.tooltip {
+  position: relative;
+  display: flex;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 140px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 150%;
+  left: 50%;
+  font-weight: 100;
+  margin-left: -75px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+.tooltip button{
+    margin: 5px;
+
+}

@@ -1,14 +1,45 @@
 
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { BitlyClient } from 'bitly-react';
+import { Link } from 'react-router-dom';
+import Modal from '../../components/Modal/Modal';
 import './style.css';
 
 function GenerateInvoice() {
+  const [smsModal, setSmsModal] = useState(false);
+  const [emailModal, setEmailModal] = useState(false);
+  const [bitlyUrl, setBitlyUrl] = useState('');
 
   const invoice = useSelector(state=> state.selectedInvoice);
   console.log("generate invoice", invoice);
-  // const { userInfo } = userSignin;  
-    return (
+  
+  const bitly = new BitlyClient('930b46de2b827c05809757b390d38b7ed5d5613b', {});
+  const generateUrl = async () => {
+    let result;
+    try {
+      result = await bitly.shorten('https://google.com');
+    } catch (e) {
+      throw e;
+    }
+    console.log(result);
+    setBitlyUrl(result.url);
+    return result;
 
+  }
+
+  const copyUrl = () => {
+    navigator.clipboard.writeText(bitlyUrl);
+    var tooltip = document.getElementById("myTooltip");
+  tooltip.innerHTML = "Copied !";
+
+  }
+
+  const outFunc = () => {
+      var tooltip = document.getElementById("myTooltip");
+      tooltip.innerHTML = "Copy to clipboard";
+  }
+    return (
 
             
   
@@ -158,8 +189,68 @@ function GenerateInvoice() {
                 <h4>For Admin Use Only</h4>
                 <p>Send directly to your customer</p>
                 <div className="send">
-                  <button>Send Email</button>
-                  <button>Send SMS</button>
+                  {/* <button type="button" data-toggle="modal" data-target="#exampleModalCenter">Send Email</button>
+                  <button>Send SMS</button> */}
+                  <button onClick={()=>setSmsModal(true)} type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#smsModal">Send SMS</button>
+                  <button onClick={()=>setEmailModal(true)} type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#emailModal">Send Email</button>
+
+                </div>
+
+                {/*SMS Modal */}
+                <div id="smsModal" class={`modal ${smsModal?'show':''}`}>
+
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span onClick={()=>setSmsModal(false)} class="close">&times;</span>
+                            <h2>Send SMS</h2>
+                        </div>
+                    <div class="modal-body">
+                      <div className='bitly'>
+                        <p><b>Bitly Url :</b></p>
+                        {bitlyUrl === '' ?
+                          <button onClick={() => generateUrl()}>Generate Url</button> :
+                          <div className="tooltip">
+                            <p>{bitlyUrl}</p>
+                            <button onClick={() => copyUrl()} onMouseOut={()=>outFunc()}>
+                              <span class="tooltiptext" id="myTooltip">
+                                Copy to clipboard
+                                </span>
+                                Copy
+                                </button>
+                          </div>}
+                      </div>
+                      <div className="message">
+                        <p><b>Enter your message :</b></p>
+                        <textarea placeholder='Enter Message'></textarea>
+                      </div>
+                        </div>
+                        <div class="modal-footer">
+                      {/* <h3>Modal Footer</h3> */}
+                      <button>Send</button>
+                        </div>
+                    </div>
+
+                </div>
+                {/*Email Modal */}
+                <div id="emailModal" class={`modal ${emailModal?'show':''}`}>
+
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span onClick={()=>setEmailModal(false)} class="close">&times;</span>
+                            <h2>Send Email</h2>
+                        </div>
+                    <div class="modal-body">
+                      <div className="message">
+                        <p><b>Enter Message :</b></p>
+                        <textarea placeholder='Enter Message'></textarea>
+                      </div>
+                        </div>
+                        <div class="modal-footer">
+                      {/* <h3>Modal Footer</h3> */}
+                      <button>Send</button>
+                        </div>
+                    </div>
+
                 </div>
               </section>
               <div className="clearfix" />
