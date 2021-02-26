@@ -2,7 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import userRouter from './routers/userRouter.js'
-import clientRouter from './routers/clientRouter.js'
+// import clientRouter from './routers/clientRouter.js'
 import invoiceRouter from './routers/invoiceRouter.js';
 import cors from 'cors';
 import serviceRouter from './routers/serviceRouter.js';
