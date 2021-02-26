@@ -1,6 +1,6 @@
 import { applyMiddleware, createStore, compose, combineReducers } from "redux";
 import thunk from 'redux-thunk';
-import { clientListReducer, saveClient, selectedInvoiceReducer, serviceListReducer } from "./reducers/invoiceReducers";
+import { clientListReducer, invoiceListReducer, saveClient, selectedInvoiceReducer, serviceListReducer } from "./reducers/invoiceReducers";
 import { userSigninReducer } from "./reducers/userReducer";
 
 const initialState = {
@@ -20,6 +20,7 @@ const reducer = combineReducers({
     choosenClientInfo: saveClient,
     serviceInfo: serviceListReducer,
     selectedInvoice: selectedInvoiceReducer,
+    invoiceInfo: invoiceListReducer,
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

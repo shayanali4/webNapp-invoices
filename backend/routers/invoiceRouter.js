@@ -8,8 +8,6 @@ import { generateToken } from '../utils.js';
 const invoiceRouter = express.Router();
 
 invoiceRouter.get('/', expressAsyncHandler(async (req, res) => {
-    // const createdUsers = await User.insertMany(data.users);
-    // res.send({ createdUsers });
     const invoices = await Invoice.find({});
     res.send({ invoices });    
 }));

@@ -75,6 +75,7 @@ function GenerateInvoice() {
                 </div>
               </div>
               <section className="items">
+                {/* {invoice.selectedInvoice.servicesList} */}
                 <table id="tblSearch" className="table table-hover nowrap">
                   <thead style={{ backgroundColor: "#00CED1" }} >
                     <tr>

@@ -1,7 +1,7 @@
 import Axios from "axios";
 import { useSelector } from "react-redux";
 import { serverAddress } from "../constants/dbConstants";
-import { CLIENT_LIST_FAIL, CLIENT_LIST_REQUEST, CLIENT_LIST_SUCCESS, CLIENT_SAVE_FAIL, CLIENT_SAVE_REQUEST, CLIENT_SAVE_SUCCESS, INVOICE_SAVE_FAIL, INVOICE_SAVE_REQUEST, INVOICE_SAVE_SUCCESS, SERVICE_LIST_FAIL, SERVICE_LIST_REQUEST, SERVICE_LIST_SUCCESS, SERVICE_SAVE_FAIL, SERVICE_SAVE_REQUEST, SERVICE_SAVE_SUCCESS } from "../constants/invoiceConstants";
+import { CLIENT_LIST_FAIL, CLIENT_LIST_REQUEST, CLIENT_LIST_SUCCESS, CLIENT_SAVE_FAIL, CLIENT_SAVE_REQUEST, CLIENT_SAVE_SUCCESS, INVOICE_LIST_FAIL, INVOICE_LIST_REQUEST, INVOICE_LIST_SUCCESS, INVOICE_SAVE_FAIL, INVOICE_SAVE_REQUEST, INVOICE_SAVE_SUCCESS, SERVICE_LIST_FAIL, SERVICE_LIST_REQUEST, SERVICE_LIST_SUCCESS, SERVICE_SAVE_FAIL, SERVICE_SAVE_REQUEST, SERVICE_SAVE_SUCCESS } from "../constants/invoiceConstants";
 
 
 // Client Actions
@@ -146,3 +146,42 @@ export const newInvoice = (invoice) => async (dispatch) => {
     }
 };
 
+// Get Invoices List
+export const invoiceList = () => async (dispatch) => {
+    dispatch({
+        type: INVOICE_LIST_REQUEST,
+    });
+    try {
+        const { data } = await Axios.get(`${serverAddress}/api/invoices`);
+        dispatch({
+            type: INVOICE_LIST_SUCCESS,
+            payload: data,
+        });
+     } catch (err) {
+        dispatch({
+            type: INVOICE_LIST_FAIL,
+            payload: err.response && err.response.data.message ?
+                err.response.data.message : err.message,
+        });
+    }
+};
+
+// New Invoice
+export const selectInvoice = (invoice) => async (dispatch) => {
+    console.log("select iv action==>",invoice)
+    dispatch({
+        type: INVOICE_SAVE_REQUEST,
+    });
+    try {
+        dispatch({
+            type: INVOICE_SAVE_SUCCESS,
+            payload: invoice,
+        });
+     } catch (err) {
+        dispatch({
+            type: INVOICE_SAVE_FAIL,
+            payload: err.response && err.response.data.message ?
+                err.response.data.message : err.message,
+        });
+    }
+};
