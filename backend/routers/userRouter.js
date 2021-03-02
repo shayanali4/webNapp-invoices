@@ -3,11 +3,12 @@ import expressAsyncHandler from 'express-async-handler';
 import bcrypt from 'bcryptjs';
 import User from '../models/userModel.js';
 import data from '../data.js';
+import Company from '../models/companyModel.js';
 
 
 const userRouter = express.Router();
 
-userRouter.get('/', expressAsyncHandler(async (req, res) => {
+userRouter.post('/', expressAsyncHandler(async (req, res) => {
     // const createdUsers = await User.insertMany(data.users);
     // res.send({ createdUsers });
     const users = await User.find({});
@@ -22,16 +23,16 @@ userRouter.get('/seed', expressAsyncHandler(async (req, res) => {
 }));
 
 userRouter.post('/signin', expressAsyncHandler(async (req, res) => {
-    const user = await User.findOne({ userName: req.body.userName });
-    // console.log("user", user);
-    if (user) {
-        if (bcrypt.compareSync(req.body.password, user.password)) {
+    const company = await Company.findOne({ users: { $elemMatch: { userName: req.body.userName } } });
+    const user = company.users.filter(x => x.userName === req.body.userName)
+    if (user[0]) {
+        // console.log("user", user[0].password);
+        if (bcrypt.compareSync(req.body.password, user[0].password)) {
             res.send({
-                _id: user._id,
-                userName: user.userName,
-                companyId: user.companyId,
-                status: user.status,
-                // token: generateToken(user),
+                _id: user[0]._id,
+                companyId: company._id,
+                userName: user[0].userName,
+                status: user[0].status,
             });
         return;
         }
@@ -40,6 +41,27 @@ userRouter.post('/signin', expressAsyncHandler(async (req, res) => {
         message: 'Invalid User Name or password'});
     })
 );
+
+// userRouter.post('/signin', expressAsyncHandler(async (req, res) => {
+//     const user = await User.findOne({ userName: req.body.userName });
+//     // console.log("user", user);
+//     if (user) {
+//         if (bcrypt.compareSync(req.body.password, user.password)) {
+//             res.send({
+//                 _id: user._id,
+//                 userName: user.userName,
+//                 companyId: user.companyId,
+//                 status: user.status,
+//                 // token: generateToken(user),
+//             });
+//         return;
+//         }
+//     }
+//     res.status(401).send({
+//         message: 'Invalid User Name or password'});
+//     })
+// );
+
 
 // userRouter.post('/register', expressAsyncHandler(async (req, res) => {
 //     const user = new User({

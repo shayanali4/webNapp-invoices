@@ -66,12 +66,16 @@ export const newclient = (clientName, companyName, email, address, phone, ABN ) 
 // Services
 
 // Get Existing Services List
-export const serviceList = (userName, password) => async (dispatch) => {
+export const serviceList = () => async (dispatch) => {
+    const user = localStorage.getItem('userInfo') ?
+        JSON.parse(localStorage.getItem('userInfo'))
+        : null;
+    const companyId = user.companyId;
     dispatch({
         type: SERVICE_LIST_REQUEST,
     });
     try {
-        const { data } = await Axios.get(`${serverAddress}/api/services`);
+        const { data } = await Axios.post(`${serverAddress}/api/services`, { companyId });
         dispatch({
             type: SERVICE_LIST_SUCCESS,
             payload: data,
@@ -87,7 +91,10 @@ export const serviceList = (userName, password) => async (dispatch) => {
 
 //New Service
 export const newservice = (shortDescription, longDescription, price) => async (dispatch) => {
-
+    const user = localStorage.getItem('userInfo') ?
+        JSON.parse(localStorage.getItem('userInfo'))
+        : null;
+    const companyId = user.companyId;
     dispatch({
         type: SERVICE_SAVE_REQUEST,
         payload: {
@@ -97,10 +104,10 @@ export const newservice = (shortDescription, longDescription, price) => async (d
         }
     });
     try {
-        const { data } = await Axios.post(`${serverAddress}/api/services/create`, { shortDescription, longDescription, price });
+        const { data } = await Axios.post(`${serverAddress}/api/services/create`, { companyId, shortDescription, longDescription, price });
 
-            dispatch({
-        type: SERVICE_LIST_REQUEST,
+        dispatch({
+            type: SERVICE_LIST_REQUEST,
     });
         try {
             const { data } = await Axios.get(`${serverAddress}/api/services`);

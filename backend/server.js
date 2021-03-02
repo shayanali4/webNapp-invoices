@@ -7,6 +7,7 @@ import invoiceRouter from './routers/invoiceRouter.js';
 import cors from 'cors';
 import serviceRouter from './routers/serviceRouter.js';
 import clientRouter from './routers/clientRouter.js';
+import companyRouter from './routers/companyRouter.js';
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ app.use('/api/users', userRouter);
 app.use('/api/clients', clientRouter);
 app.use('/api/services', serviceRouter);
 app.use('/api/invoices', invoiceRouter);
+app.use('/api/companies', companyRouter);
 
 app.get('/', (req, res) => {
     res.send('Server is ready');
