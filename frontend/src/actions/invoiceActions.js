@@ -110,7 +110,7 @@ export const newservice = (shortDescription, longDescription, price) => async (d
             type: SERVICE_LIST_REQUEST,
     });
         try {
-            const { data } = await Axios.get(`${serverAddress}/api/services`);
+            const { data } = await Axios.post(`${serverAddress}/api/services`, { companyId });
             dispatch({
                 type: SERVICE_LIST_SUCCESS,
                 payload: data,

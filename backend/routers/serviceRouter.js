@@ -22,12 +22,29 @@ serviceRouter.post('/', expressAsyncHandler(async (req, res) => {
 // }));
 
 serviceRouter.post('/create', expressAsyncHandler(async (req, res) => {
-    const newService = new Service({
+    const newService = {
         shortDescription: req.body.shortDescription,
         longDescription: req.body.longDescription,
         price: req.body.price
-    });
-    const createdService = await Service.insertMany(newService);
+    };
+
+    // const createdService = await Company.update(
+    //     { _id: req.body.companyId }, 
+    //     { $push: newService }
+    // );
+    let company = await Company.findOne({ _id: req.body.companyId });
+    company.servicesList.push(newService);
+    const createdService = await company.save();
+    // console.log(company);
+
+    // const createdService = db.getCollection('companies').findOneAndUpdate(
+    //     { "_id": "603dba1dfde3f92f184af393" },
+    //     {
+    //         $push: {
+    //             servicesList: { shortDescription: "cat"}
+    //         }
+    //     }
+    // );
     res.send({ createdService });  
 }));
 
