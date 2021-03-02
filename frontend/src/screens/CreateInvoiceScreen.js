@@ -89,7 +89,7 @@ function CreateInvoiceScreen(props) {
                   <option selected>Please select a client</option>
                   {clientsInfo ? <>
                     {clientsInfo.clients.map((v, i) =>
-                      <option id={i} value={i}>{v.clientName} ({v.companyName})</option>
+                      <option id={i} value={i}>{v.clientName}</option>
                   )}
                   </>
                     : <></>}

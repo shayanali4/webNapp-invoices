@@ -8,11 +8,15 @@ import { CLIENT_LIST_FAIL, CLIENT_LIST_REQUEST, CLIENT_LIST_SUCCESS, CLIENT_SAVE
  
 // Get Existing Clients List
 export const clientList = (userName, password) => async (dispatch) => {
+    const user = localStorage.getItem('userInfo') ?
+        JSON.parse(localStorage.getItem('userInfo'))
+        : null;
+    const companyId = user.companyId;
     dispatch({
         type: CLIENT_LIST_REQUEST,
     });
     try {
-        const { data } = await Axios.get(`${serverAddress}/api/clients`);
+        const { data } = await Axios.post(`${serverAddress}/api/clients`, { companyId });
         dispatch({
             type: CLIENT_LIST_SUCCESS,
             payload: data,
@@ -37,9 +41,14 @@ export const oldclient = (data) => async (dispatch) => {
 
 // New Client
 export const newclient = (clientName, companyName, email, address, phone, ABN ) => async (dispatch) => {
+    const user = localStorage.getItem('userInfo') ?
+        JSON.parse(localStorage.getItem('userInfo'))
+        : null;
+    const companyId = user.companyId;
     dispatch({
         type: CLIENT_SAVE_REQUEST,
         payload: {
+            companyId,
             clientName,
             companyName,
             email,
@@ -49,10 +58,11 @@ export const newclient = (clientName, companyName, email, address, phone, ABN ) 
         }
     });
     try {
-        const { data } = await Axios.post(`${serverAddress}/api/clients/create`, { clientName, companyName, email, address, phone, ABN });
+        const { data } = await Axios.post(`${serverAddress}/api/clients/create`, { companyId, clientName, companyName, email, address, phone, ABN });
+        console.log("client received==>",data)
         dispatch({
             type: CLIENT_SAVE_SUCCESS,
-            payload: data.createdClient[0],
+            payload: data.selectedClient[0],
         });
      } catch (err) {
         dispatch({
