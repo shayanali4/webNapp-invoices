@@ -57,7 +57,7 @@ export const serviceListReducer = (state = {}, action) => {
 
 // Select Invoice Reducer
 export const selectedInvoiceReducer = (state = {}, action) => {
-    console.log("selected ib=v reducer==>",action.payload)
+    // console.log("selected ib=v reducer==>",action.payload)
     switch (action.type) {
         case INVOICE_SAVE_REQUEST:
             return { loading: true };

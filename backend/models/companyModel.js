@@ -11,14 +11,14 @@ const companySchema = new mongoose.Schema({
     ],
     users: [
         {
-            userName: { type: String },
+            userName: { type: String, unique:true },
             password: { type: String},
             status: {type: String},
         }
     ],
     clients: [
         {
-            clientName: { type: String },
+            clientName: { type: String, unique:true },
             companyName: { type: String },
             email: { type: String },
             address: { type: String },

@@ -11,9 +11,10 @@ function GenerateInvoice() {
   const [emailModal, setEmailModal] = useState(false);
   const [bitlyUrl, setBitlyUrl] = useState('');
 
-  const invoice = useSelector(state=> state.selectedInvoice);
-  console.log("generate invoice", invoice);
-  
+  const invoice = useSelector(state => state.selectedInvoice);
+  if (invoice.selectedInvoice) {
+    console.log("generate invoice", invoice.selectedInvoice.selectedInvoice[0]);
+  }
   const bitly = new BitlyClient('930b46de2b827c05809757b390d38b7ed5d5613b', {});
   const generateUrl = async () => {
     let result;
@@ -71,26 +72,26 @@ function GenerateInvoice() {
                     <span className="first" ><b>Customer Details</b></span><br />
                     <span className="second" style={{ display: 'inline-block', minWidth: '30px' }}>
                       <b>Name: <span id="ctl04_lblClientName">
-                        {invoice.selectedInvoice.clientName}
+                        {invoice.selectedInvoice.selectedInvoice[0].clientName}
                       </span>
                       </b>
                     </span>
                     <br />
                     <span className="second">Email:
                   <span id="ctl04_lblClientEmail">
-                        {invoice.selectedInvoice.email}
+                        {invoice.selectedInvoice.selectedInvoice[0].email}
                       </span>
                     </span>
                     <br />
                     <span className="second" >Phone:
                   <span id="ctl04_lblClientPhone">
-                        {invoice.selectedInvoice.phone}
+                        {invoice.selectedInvoice.selectedInvoice[0].phone}
                       </span>
                     </span>
                     <br />
                     <span className="second" >ABN:
                   <span id="ctl04_lblClientABN">
-                        {invoice.selectedInvoice.ABN}
+                        {invoice.selectedInvoice.selectedInvoice[0].ABN}
                       </span>
                     </span>
                     <br />
@@ -115,12 +116,12 @@ function GenerateInvoice() {
                     </tr>
                   </thead>
                   <tbody>
-                    {invoice.selectedInvoice.servicesList.map((v, i) =>
+                    {/* {invoice.selectedInvoice.selectedInvoice[0].listItems.map((v, i) =>
                       <tr key={i}>
                         <td className="first">{v.longDescription}</td>
                         <td className="second" >${v.price}</td>
                       </tr>
-                    )}
+                    )} */}
 
                     {/* <tr>
                       <td className="first" >Item - 2</td>
