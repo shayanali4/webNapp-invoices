@@ -57,7 +57,6 @@ function InvoiceDetailsScreen(props) {
 
     const generatedInvoice = {
       clientName: choosenClient.clientName,
-      companyName: choosenClient.companyName,
       email: choosenClient.email,
       phone: choosenClient.phone,
       address: choosenClient.address,

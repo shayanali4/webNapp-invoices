@@ -144,17 +144,31 @@ export const newservice = (shortDescription, longDescription, price) => async (d
 
 // New Invoice
 export const newInvoice = (invoice) => async (dispatch) => {
+    const user = localStorage.getItem('userInfo') ?
+        JSON.parse(localStorage.getItem('userInfo'))
+        : null;
+    const companyId = user.companyId;
+    console.log("invoice action", invoice)
     dispatch({
         type: INVOICE_SAVE_REQUEST,
     });
     try {
-        const { data } = await Axios.post(`${serverAddress}/api/invoices/new`, invoice);
-        console.log('createdInnvoice',data)
+        const { data } = await Axios.post(`${serverAddress}/api/invoices/new`, {
+            companyId: companyId,
+            // clientName: invoice.clientName,
+            // email: invoice.email,
+            // phone: invoice.phone,
+            // address: invoice.address,
+            // ABN: invoice.ABN,
+            // servicesList: invoice.servicesList
+        });
+        console.log('created Innvoice received ',data)
         dispatch({
             type: INVOICE_SAVE_SUCCESS,
             payload: data.createdInvoice,
         });
-     } catch (err) {
+    } catch (err) {
+        console.log(err)
         dispatch({
             type: INVOICE_SAVE_FAIL,
             payload: err.response && err.response.data.message ?
@@ -183,7 +197,7 @@ export const invoiceList = () => async (dispatch) => {
     }
 };
 
-// New Invoice
+// Select Invoice
 export const selectInvoice = (invoice) => async (dispatch) => {
     console.log("select iv action==>",invoice)
     dispatch({

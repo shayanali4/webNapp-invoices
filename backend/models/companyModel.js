@@ -29,7 +29,6 @@ const companySchema = new mongoose.Schema({
     invoices: [
         {
             clientName: { type: String },
-            clientName: { type: String },
             email: { type: String },
             address: { type: String },
             phone: { type: Number },
