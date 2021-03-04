@@ -1,6 +1,6 @@
 import { applyMiddleware, createStore, compose, combineReducers } from "redux";
 import thunk from 'redux-thunk';
-import { clientListReducer, invoiceListReducer, saveClient, selectedInvoiceReducer, serviceListReducer } from "./reducers/invoiceReducers";
+import { clientListReducer, invoiceListReducer, saveClient, selectedInvoiceReducer, serviceListReducer, settingsReducer } from "./reducers/invoiceReducers";
 import { userSigninReducer } from "./reducers/userReducer";
 
 const initialState = {
@@ -12,6 +12,14 @@ const initialState = {
     serviceInfo: {
         servicesLIst: [{}]
     },
+    settingsInfo: {
+        settings: {
+            stripeKey: '',
+            invoiceFooter: '',
+            emailTTemplate: '',
+            smsTemplate: ''
+        }
+    }
 
 };
 const reducer = combineReducers({
@@ -19,8 +27,9 @@ const reducer = combineReducers({
     clientInfo: clientListReducer,
     choosenClientInfo: saveClient,
     serviceInfo: serviceListReducer,
-    selectedInvoice: selectedInvoiceReducer,
-    invoiceInfo: invoiceListReducer,
+    invoiceInfo: selectedInvoiceReducer,
+    invoicesListInfo: invoiceListReducer,
+    settingsInfo: settingsReducer
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

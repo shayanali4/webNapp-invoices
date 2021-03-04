@@ -9,7 +9,7 @@ const invoiceRouter = express.Router();
 invoiceRouter.post('/', expressAsyncHandler(async (req, res) => {
     const selectedCompany = await Company.findOne({ _id: req.body.companyId });
     const invoices = selectedCompany.invoices;
-    res.send({ invoices }); 
+    res.send(invoices); 
 }));
 
 invoiceRouter.get('/seed', expressAsyncHandler(async (req, res) => {
@@ -20,7 +20,9 @@ invoiceRouter.get('/seed', expressAsyncHandler(async (req, res) => {
 }));
 
 invoiceRouter.post('/new', expressAsyncHandler(async (req, res) => {
+    const invoiceNumber = `INV${Math.floor(1000 + Math.random() * 9000)}`;
     const newInvoice = {
+        invoiceNumber: invoiceNumber,
         clientName: req.body.clientName,
         email: req.body.email,
         phone: req.body.phone,
@@ -28,22 +30,22 @@ invoiceRouter.post('/new', expressAsyncHandler(async (req, res) => {
         ABN: req.body.ABN,
         // ListItems: req.body.listItems
     };
-    console.log(req.body)
+    // console.log(req.body)
     newInvoice.listItems = [...req.body.listItems];
-    console.log(newInvoice)
+    // console.log("new Invoice",newInvoice)
     let company = await Company.findOne({ _id: req.body.companyId });
     company.invoices.push(newInvoice);
     // company.invoices.listItems=req.body.listItems;
-
+    // console.log("company",company)
     const createdInvoice = await company.save();
 
-    const selectedInvoice = createdInvoice.invoices.filter(x => x.clientName === req.body.clientName);
-    // console.log(selectedInvoice)
+    const selectedInvoice = createdInvoice.invoices.filter(x => x.invoiceNumber === invoiceNumber);
+    console.log(selectedInvoice[0])
 
 
 
     
-    res.send({ selectedInvoice });;  
+    res.send( selectedInvoice[0] );  
 }));
 
 export default invoiceRouter;

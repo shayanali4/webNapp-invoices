@@ -8,6 +8,7 @@ import cors from 'cors';
 import serviceRouter from './routers/serviceRouter.js';
 import clientRouter from './routers/clientRouter.js';
 import companyRouter from './routers/companyRouter.js';
+import settingRouter from './routers/settingRouter.js';
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ mongoose.connect('mongodb+srv://admin:admin123@cluster0.gwgp8.mongodb.net/MyAcco
 app.use('/api/users', userRouter);
 app.use('/api/clients', clientRouter);
 app.use('/api/services', serviceRouter);
+app.use('/api/settings', settingRouter);
 app.use('/api/invoices', invoiceRouter);
 app.use('/api/companies', companyRouter);
 

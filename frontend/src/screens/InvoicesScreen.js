@@ -13,11 +13,11 @@ function InvoicesScreen(props) {
 
   }, [dispatch]);
 
-  const invoicesInfo = useSelector((state) => state.invoiceInfo);
-  console.log('invoice list', invoicesInfo);
+  const invoicesListInfo = useSelector((state) => state.invoicesListInfo);
+  console.log('invoice list', invoicesListInfo);
   
   const chooseInvoice = (index) => {
-    setSelectedInvoice(invoicesInfo.invoicesList.invoices[index]);
+    setSelectedInvoice(invoicesListInfo.invoicesList[index]);
     // props.history.push('/generate');
   }
 
@@ -49,9 +49,9 @@ function InvoicesScreen(props) {
                   Invoice list
                 </h3>
         <div className="page_single layout_fullwidth_padding">
-          {invoicesInfo.invoicesList ?
+          {invoicesListInfo.invoicesList ?
             <ul className="list">
-              {invoicesInfo.invoicesList.invoices.map((v, i) =>
+              {invoicesListInfo.invoicesList.map((v, i) =>
                 <li onClick={()=>chooseInvoice(i)} key={i}>
                   {/* <div>
                     <i className="fa fa-file" aria-hidden="true" />

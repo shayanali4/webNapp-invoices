@@ -29,6 +29,7 @@ const companySchema = new mongoose.Schema({
     invoices: [
         {
             clientName: { type: String },
+            invoiceNumber: {type: String, unique:true},
             email: { type: String },
             address: { type: String },
             phone: { type: Number },
@@ -41,7 +42,13 @@ const companySchema = new mongoose.Schema({
                 }
             ],
         }
-    ]
+    ],
+    settings: {
+        stripeKey: { type: String },
+        emailTemplate: { type: String },
+        smsTemplate: { type: String },
+        invoiceFooter: { type: String },
+    }
 }, { 
     timestamps: true,
 });

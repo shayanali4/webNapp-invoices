@@ -2,6 +2,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {Link} from 'react-router-dom'
+import { getSettingsInfo } from '../actions/invoiceActions';
 import { signout } from '../actions/userActions';
 import Header from '../components/Header';
 function DashboardScreen(props) {
@@ -13,6 +14,11 @@ function DashboardScreen(props) {
   const signoutHandler = () => {
         dispatch(signout());
   }
+
+  useEffect(() => {
+    dispatch(getSettingsInfo());
+    
+  }, [dispatch]);
 
   useEffect(() => {
     if (!userInfo) {

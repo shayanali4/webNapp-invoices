@@ -52,7 +52,7 @@ function InvoiceDetailsScreen(props) {
   const addToList = () => {
     setListItems(prevArray => [...prevArray, selectedService]);
   }
-
+  console.log("list items",listItems)
   const submitHandler = () => {
 
     const generatedInvoice = {
@@ -61,7 +61,7 @@ function InvoiceDetailsScreen(props) {
       phone: choosenClient.phone,
       address: choosenClient.address,
       ABN: choosenClient.ABN,
-      servicesList: listItems,
+      listItems: listItems,
     };
     dispatch(newInvoice(generatedInvoice));
 
