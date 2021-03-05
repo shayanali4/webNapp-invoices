@@ -42,6 +42,7 @@ function InvoicesScreen(props) {
       <Header />
               <div id="pages_maincontent">
                 <h2 className="page_title" >
+                  <i onClick={props.history.goBack} class="fa fa-chevron-left back-ico" aria-hidden="true"></i>
                   <i className="fa fa-bars" aria-hidden="true" />
                   &nbsp;Invoices
                 </h2>
