@@ -10,6 +10,7 @@ import { settingsReducer } from '../../reducers/invoiceReducers';
 function GenerateInvoice() {
   const [smsModal, setSmsModal] = useState(false);
   const [emailModal, setEmailModal] = useState(false);
+  const [paymentModal, setPaymentModal] = useState(false);
   const [bitlyUrl, setBitlyUrl] = useState('');
   const invoice = useSelector(state => state.invoiceInfo);
   const settings = useSelector(state => state.settingsInfo.settings);
@@ -18,13 +19,11 @@ function GenerateInvoice() {
     // }
   const [emailTemplate, setEmailTemplate] = useState(settings.emailTemplate);  
   const [smsTemplate, setSmsTemplate] = useState(settings.smsTemplate);
-  let subTotal = 0;
   let gst = 0;
   let totalPrice = 0;
   if (invoice.selectedInvoice) {
-    subTotal = invoice.selectedInvoice.listItems.reduce((prev, next) => prev + next.price, 0);
-    gst = subTotal / 10;
-    totalPrice = subTotal + gst;
+    totalPrice = invoice.selectedInvoice.listItems.reduce((prev, next) => prev + next.price, 0);
+    gst = totalPrice / 11;
   }
   
   const foot = settings.invoiceFooter;
@@ -136,14 +135,6 @@ function GenerateInvoice() {
                       </tr>
                     )}
 
-                    <tr>
-                      <td className="first" ><b>Sub-Total :</b></td>
-                      <td className="second"><b>${subTotal}</b></td>
-                    </tr>
-                    {/* <tr className="desc">
-                      <td className="first" >Lorem ipsum dolor siit amet pretium nisl neque sed lacus. Nulla facilisi. In tincidunt tincidunt leo.</td>
-                      <td className="second" >$19.00</td>
-                    </tr> */}
                   </tbody>
                 </table>
               </section>
@@ -159,12 +150,12 @@ function GenerateInvoice() {
                   <div className="col-md-6">
                     <table className="first1 " >
                       <tbody className=" mob"  >
-                        <tr id="ctl04_gstpanel" className="amount-total">
-                          <td className="second">GST: $<span id="ctl04_lblGSTAmount">{gst}</span></td>
-                        </tr>
                         <tr className="amount-total  mob">
                           <td className="second" >Total: $<span id="ctl04_lblTotalAmount">{totalPrice}</span></td>
                       </tr>
+                        <tr id="ctl04_gstpanel" className="amount-total">
+                          <td className="second">GST: $<span id="ctl04_lblGSTAmount">{gst.toFixed(2)}</span></td>
+                        </tr>
                         
                         <tr className="amount-total">
                           <td className="second">Amount Paid: $<span id="ctl04_lblPaidAmount">0.00</span></td>
@@ -203,6 +194,7 @@ function GenerateInvoice() {
                   <button>Send SMS</button> */}
                   <button onClick={()=>setSmsModal(true)} type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#smsModal">Send SMS</button>
                   <button onClick={()=>setEmailModal(true)} type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#emailModal">Send Email</button>
+                  <button onClick={()=>setPaymentModal(true)} type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#paymentModal">Payment Received</button>
 
                 </div>
 
@@ -229,10 +221,11 @@ function GenerateInvoice() {
                                 </button>
                           </div>}
                       </div>
-                      <div className="message">
-                        <p><b>Enter your message :</b></p>
-                        <textarea value={smsTemplate} onChange={(e)=>setSmsTemplate(e.target.value)} placeholder='Enter Message'></textarea>
-                      </div>
+                      {bitlyUrl !== '' ?
+                        <div className="message">
+                          <p><b>Enter your message :</b></p>
+                          <textarea value={`${smsTemplate} \nHere is the download link : ${bitlyUrl}`} onChange={(e) => setSmsTemplate(e.target.value)} placeholder='Enter Message'></textarea>
+                        </div> :<></>}
                         </div>
                         <div class="modal-footer">
                       {/* <h3>Modal Footer</h3> */}
@@ -255,6 +248,95 @@ function GenerateInvoice() {
                         <textarea value={emailTemplate} onChange={(e)=>setEmailTemplate(e.target.value)} placeholder='Enter Message'></textarea>
                       </div>
                         </div>
+                        <div class="modal-footer">
+                      {/* <h3>Modal Footer</h3> */}
+                      <button>Send</button>
+                        </div>
+                    </div>
+
+                </div>
+                {/*Payment Modal */}
+                <div id="paymentModal" class={`modal ${paymentModal?'show':''}`}>
+
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span onClick={()=>setPaymentModal(false)} class="close">&times;</span>
+                            <h4>Payment Received</h4>
+                        </div>
+                    <div class="modal-body">
+                      <div>
+                        <p><b>Payment Method :</b></p>
+                        <span>
+                          <input id='cash' type="radio" name='payment' />
+                          <label htmlFor='cash'>Cash</label>
+                        </span>
+                        <span>
+                          <input id='cheque' type="radio" name='payment' />
+                          <label htmlFor='cheque'>Cheque</label>
+                        </span>
+                        <span>
+                          <input id='banktransfer' type="radio" name='payment' />
+                          <label htmlFor='banktransfer'>Bank Transfer</label>
+                        </span>
+                        <span>
+                          <input id='stripe' type="radio" name='payment' />
+                          <label htmlFor='stripe'>Stripe</label>
+                        </span>
+                        <span>
+                          <input id='efpos' type="radio" name='payment' />
+                          <label htmlFor='efpos'>EFPOS</label>
+                        </span>
+                      </div>
+                      <div>
+                        <table id="tblSearch" className="table table-hover nowrap my-3">
+                          <thead style={{ backgroundColor: "#00CED1" }} >
+                            <tr>
+                              <th className="first" style={{ width: '25%' }}>Date</th>
+                              <th className="second" style={{ width: '45%' }}>Payment Method</th>
+                              <th className="second" style={{ width: '15%' }}>Payment Received</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td className="first" style={{ width: '25%' }}>01/02/2021</td>
+                              <td className="second" style={{ width: '45%' }}>Stripe</td>
+                              <td className="second" style={{ width: '15%' }}>$20</td>
+                            </tr>
+                            <tr>
+                              <td className="first" style={{ width: '25%' }}>03/02/2021</td>
+                              <td className="second" style={{ width: '45%' }}>Cheque</td>
+                              <td className="second" style={{ width: '15%' }}>$35</td>
+                            </tr>
+                            <tr>
+                              <td className="first" style={{ width: '25%' }}>01/03/2021</td>
+                              <td className="second" style={{ width: '45%' }}>Bank Transfer</td>
+                              <td className="second" style={{ width: '15%' }}>$65</td>
+                            </tr>
+                            {/* {invoice.selectedInvoice.listItems.map((v, i) =>
+                              <tr key={i}>
+                                <td className="first">{v.longDescription}</td>
+                                <td className="second" >${v.price}</td>
+                              </tr>
+                            )} */}
+
+                          </tbody>
+                        </table>
+                      </div>
+                      <div className='amount-details'>
+                        <div>
+                          <p><b>Total Amount :</b></p>
+                          <p>${totalPrice}</p>
+                        </div>
+                        <div>
+                          <p><b>Paid Amount :</b></p>
+                          <p>$0</p>
+                        </div>
+                        <div>
+                          <p><b>Balance Amount :</b></p>
+                          <p>${totalPrice}</p>
+                        </div>
+                      </div>
+                    </div>
                         <div class="modal-footer">
                       {/* <h3>Modal Footer</h3> */}
                       <button>Send</button>

@@ -15,18 +15,32 @@ function InvoicesScreen(props) {
 
   const invoicesListInfo = useSelector((state) => state.invoicesListInfo);
   console.log('invoice list', invoicesListInfo);
+
+  const getSelectedInvoice = useSelector((state) => state.invoiceInfo);
+  // console.log(getSelectedInvoice)
+
   
   const chooseInvoice = (index) => {
     setSelectedInvoice(invoicesListInfo.invoicesList[index]);
-    // props.history.push('/generate');
+    // console.log("select",invoicesListInfo.invoicesList[index])
   }
 
   useEffect(() => {
     dispatch(selectInvoice(selectedInvoice));
-    console.log("selected inv==>", selectedInvoice);
+    // console.log("selected inv==>", selectedInvoice);
 
   }, [dispatch, selectedInvoice]);
-  
+  const [invoiceClick, setInvoiceClick] = useState(false);
+  useEffect(() => {
+    if (invoiceClick) {
+      if (getSelectedInvoice.selectedInvoice) {
+        props.history.push('/generate');
+        setInvoiceClick(false);
+      }
+    }
+    // console.log("selected inv==>", selectedInvoice);
+
+  }, [dispatch, getSelectedInvoice,invoiceClick, props.history]);
   const deleteInvoice = () => {
     // Next task
   }
@@ -53,7 +67,7 @@ function InvoicesScreen(props) {
           {invoicesListInfo.invoicesList ?
             <ul className="list">
               {invoicesListInfo.invoicesList.map((v, i) =>
-                <li onClick={()=>chooseInvoice(i)} key={i}>
+                <li onClick={() => { chooseInvoice(i);setInvoiceClick(true) }} key={i}>
                   {/* <div>
                     <i className="fa fa-file" aria-hidden="true" />
                   </div> */}
@@ -64,14 +78,14 @@ function InvoicesScreen(props) {
                         {v.phone}
                       </span>
                       <span>
-                        ABN
+                        {v.ABN}
                           </span>
                     </div>
                   </div>
-                  <div className="actions">
+                  {/* <div className="actions">
                     <i onClick={() => editInvoice()} className="fa fa-pencil-square" aria-hidden="true" />
                     <i onClick={() => deleteInvoice()} className="fa fa-trash" aria-hidden="true" />
-                  </div>
+                  </div> */}
                 </li>
               )}
                     
