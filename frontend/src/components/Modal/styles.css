@@ -128,6 +128,9 @@
     color: #000;
     border-radius: 20px;
 }
+#paymentModal{
+  padding-top: 30px !important;
+}
 .modal-body>div>span{
   display: flex;
   align-items: center;
@@ -154,6 +157,33 @@
 }
 .modal-body .amount-details>div p{
   width: 120px;
+
+}
+.modal-body .rec-payment-input{
+  margin-bottom: 20px;
+}
+.modal-body .rec-payment-input input{
+  border: 1px solid gray;
+  padding: 5px 10px;
+  margin: 0 5px;
+  color: black;
+}
+.rec-payment-input input::-webkit-outer-spin-button,
+.rec-payment-input input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.modal-body .received-payment button{
+  padding: 5px 15px;
+    font-size: 14px;
+    letter-spacing: 1px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    background-color: #00CED1  !important;
+    color: #000;
+    border-radius: 20px;
+  margin-bottom: 20px;
 
 }
 @media only screen and (max-width: 600px) {

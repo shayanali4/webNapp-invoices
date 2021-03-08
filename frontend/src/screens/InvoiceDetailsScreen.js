@@ -124,7 +124,7 @@ function InvoiceDetailsScreen(props) {
       
               <div id="pages_maincontent">
                 <h2 className="page_title" >
-                  <i onClick={props.history.goBack} class="fa fa-chevron-left back-ico" aria-hidden="true"></i>
+                  <i onClick={props.history.goBack} className="fa fa-chevron-left back-ico" aria-hidden="true"></i>
                   <i className="fa fa-plus" aria-hidden="true" />
                   &nbsp;Create Invoice
                 </h2>
@@ -176,7 +176,7 @@ function InvoiceDetailsScreen(props) {
                       <label htmlFor="Select Client">Invoice Service: </label>
               <select onChange={(e) =>setServiceIndex(e.target.value) }
                 className="form-select form-select-sm" aria-label=".form-select-sm example">
-                <option selected>Please select invoice service</option>
+                <option defaultValue>Please select invoice service</option>
                         {servicesInfo.servicesList? <>
                           {servicesInfo.servicesList.map((v, i) =>
                             <option key={i} id={i} value={i}>{v.shortDescription}</option>
@@ -188,12 +188,12 @@ function InvoiceDetailsScreen(props) {
                     <div className="form_row">
                       <label htmlFor="description">Description: </label>
                     <textarea onChange={(e) => setLongDescription(e.target.value)} value={longDescription}
-                      name="description" id="description" rows={10} placeholder="Enter description" defaultValue={""} />
+                      name="description" id="description" rows={10} placeholder="Enter description" />
                     </div>
                     <div className="form_row">
                       <label htmlFor="amount">Amount: </label>
                 <input onChange={(e) => setPrice(e.target.value)} value={price}
-                  type="number" name="amount" id="amount" defaultValue placeholder="Enter Amount" className="form_input required" />
+                  type="number" name="amount" id="amount" placeholder="Enter Amount" className="form_input required" />
                     </div>
                     <input onClick={()=>addToList()} type="button" id="add" name="submit" className="form_submit" defaultValue="Add List Item" />
                     <button onClick={()=>submitHandler()} className='generate-inv-btn'>Generate Invoice</button>

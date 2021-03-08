@@ -1,10 +1,10 @@
-
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {Link} from 'react-router-dom'
 import { getSettingsInfo } from '../actions/invoiceActions';
 import { signout } from '../actions/userActions';
 import Header from '../components/Header';
+
 function DashboardScreen(props) {
 
   const userSignin = useSelector((state) => state.userSignin);
@@ -34,7 +34,7 @@ function DashboardScreen(props) {
           <i className="fa fa-home" aria-hidden="true" />
           &nbsp;Dashboard 
         </h2>
-      <i onClick={()=>signoutHandler()} class="fa fa-sign-out" aria-hidden="true"></i>
+      <i onClick={()=>signoutHandler()} className="fa fa-sign-out" aria-hidden="true"></i>
       </div>
       {userInfo ?
       <h3 id="dvResellerName" >

@@ -1,11 +1,12 @@
 
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { BitlyClient } from 'bitly-react';
 import { Link } from 'react-router-dom';
 import Modal from '../../components/Modal/Modal';
 import './style.css';
 import { settingsReducer } from '../../reducers/invoiceReducers';
+import { sendEmailBackend } from '../../actions/emailActions';
 
 function GenerateInvoice() {
   const [smsModal, setSmsModal] = useState(false);
@@ -19,12 +20,21 @@ function GenerateInvoice() {
     // }
   const [emailTemplate, setEmailTemplate] = useState(settings.emailTemplate);  
   const [smsTemplate, setSmsTemplate] = useState(settings.smsTemplate);
+
+  const [paymentList, setPaymentList] = useState([]);
+  const [payMethod, setPayMethod] = useState('');
+  const [payValue, setPayValue] = useState('');
+  const [payDate, setPayDate] = useState('');
+  const dispatch = useDispatch();
+
   let gst = 0;
   let totalPrice = 0;
   if (invoice.selectedInvoice) {
     totalPrice = invoice.selectedInvoice.listItems.reduce((prev, next) => prev + next.price, 0);
     gst = totalPrice / 11;
   }
+  let paidAmount = paymentList.reduce((prev, next) => prev + next.payValue, 0);
+  console.log('paid =>',paidAmount)
   
   const foot = settings.invoiceFooter;
   const bitly = new BitlyClient('930b46de2b827c05809757b390d38b7ed5d5613b', {});
@@ -52,6 +62,20 @@ function GenerateInvoice() {
       var tooltip = document.getElementById("myTooltip");
       tooltip.innerHTML = "Copy to clipboard";
   }
+
+  const updatePayment = () => {
+    let date = new Date();
+    setPayDate(date)
+    setPaymentList(oldArray => [...oldArray, { payMethod, payValue, date }]);
+    setPayValue('');
+    
+  };
+  const receiver = 'shayanali4@live.com';
+
+  const sendEmail = () => {
+    dispatch(sendEmailBackend(receiver,emailTemplate));
+  }
+  console.log('pay==>',paymentList);
     return (
 
             
@@ -192,21 +216,21 @@ function GenerateInvoice() {
                 <div className="send">
                   {/* <button type="button" data-toggle="modal" data-target="#exampleModalCenter">Send Email</button>
                   <button>Send SMS</button> */}
-                  <button onClick={()=>setSmsModal(true)} type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#smsModal">Send SMS</button>
-                  <button onClick={()=>setEmailModal(true)} type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#emailModal">Send Email</button>
-                  <button onClick={()=>setPaymentModal(true)} type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#paymentModal">Payment Received</button>
+                  <button onClick={()=>setSmsModal(true)} type="button" className="btn btn-info btn-lg" data-toggle="modal" data-target="#smsModal">Send SMS</button>
+                  <button onClick={()=>setEmailModal(true)} type="button" className="btn btn-info btn-lg" data-toggle="modal" data-target="#emailModal">Send Email</button>
+                  <button onClick={()=>setPaymentModal(true)} type="button" className="btn btn-info btn-lg" data-toggle="modal" data-target="#paymentModal">Received Payment</button>
 
                 </div>
 
                 {/*SMS Modal */}
-                <div id="smsModal" class={`modal ${smsModal?'show':''}`}>
+                <div id="smsModal" className={`modal ${smsModal?'show':''}`}>
 
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <span onClick={()=>setSmsModal(false)} class="close">&times;</span>
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <span onClick={()=>setSmsModal(false)} className="close">&times;</span>
                             <h2>Send SMS</h2>
                         </div>
-                    <div class="modal-body">
+                    <div className="modal-body">
                       <div className='bitly'>
                         <p><b>Bitly Url :</b></p>
                         {bitlyUrl === '' ?
@@ -214,7 +238,7 @@ function GenerateInvoice() {
                           <div className="tooltip">
                             <p>{bitlyUrl}</p>
                             <button onClick={() => copyUrl()} onMouseOut={()=>outFunc()}>
-                              <span class="tooltiptext" id="myTooltip">
+                              <span className="tooltiptext" id="myTooltip">
                                 Copy to clipboard
                                 </span>
                                 Copy
@@ -224,10 +248,10 @@ function GenerateInvoice() {
                       {bitlyUrl !== '' ?
                         <div className="message">
                           <p><b>Enter your message :</b></p>
-                          <textarea value={`${smsTemplate} \nHere is the download link : ${bitlyUrl}`} onChange={(e) => setSmsTemplate(e.target.value)} placeholder='Enter Message'></textarea>
+                          <textarea value={`${smsTemplate} \n\nHere is the download link : ${bitlyUrl}`} onChange={(e) => setSmsTemplate(e.target.value)} placeholder='Enter Message'></textarea>
                         </div> :<></>}
                         </div>
-                        <div class="modal-footer">
+                        <div className="modal-footer">
                       {/* <h3>Modal Footer</h3> */}
                       <button>Send</button>
                         </div>
@@ -235,74 +259,90 @@ function GenerateInvoice() {
 
                 </div>
                 {/*Email Modal */}
-                <div id="emailModal" class={`modal ${emailModal?'show':''}`}>
+                <div id="emailModal" className={`modal ${emailModal?'show':''}`}>
 
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <span onClick={()=>setEmailModal(false)} class="close">&times;</span>
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <span onClick={()=>setEmailModal(false)} className="close">&times;</span>
                             <h2>Send Email</h2>
                         </div>
-                    <div class="modal-body">
+                    <div className="modal-body">
                       <div className="message">
                         <p><b>Enter Message :</b></p>
                         <textarea value={emailTemplate} onChange={(e)=>setEmailTemplate(e.target.value)} placeholder='Enter Message'></textarea>
                       </div>
                         </div>
-                        <div class="modal-footer">
+                        <div className="modal-footer">
                       {/* <h3>Modal Footer</h3> */}
-                      <button>Send</button>
+                      <button onClick={()=>sendEmail()}>Send</button>
                         </div>
                     </div>
 
                 </div>
                 {/*Payment Modal */}
-                <div id="paymentModal" class={`modal ${paymentModal?'show':''}`}>
+                <div id="paymentModal" className={`modal ${paymentModal?'show':''}`}>
 
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <span onClick={()=>setPaymentModal(false)} class="close">&times;</span>
-                            <h4>Payment Received</h4>
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <span onClick={()=>setPaymentModal(false)} className="close">&times;</span>
+                            <h4>Received Payment</h4>
                         </div>
-                    <div class="modal-body">
-                      <div>
+                    <div className="modal-body">
+                      <div className="received-payment">
                         <p><b>Payment Method :</b></p>
                         <span>
-                          <input id='cash' type="radio" name='payment' />
+                          <input onChange={(e) => setPayMethod(e.target.value)} value='Cash'
+                            id='cash' type="radio" name='payment' />
                           <label htmlFor='cash'>Cash</label>
                         </span>
                         <span>
-                          <input id='cheque' type="radio" name='payment' />
+                          <input onChange={(e) => setPayMethod(e.target.value)} value='Cheque'
+                            id='cheque' type="radio" name='payment' />
                           <label htmlFor='cheque'>Cheque</label>
                         </span>
                         <span>
-                          <input id='banktransfer' type="radio" name='payment' />
+                          <input onChange={(e) => setPayMethod(e.target.value)} value='Bank Transfer'
+                            id='banktransfer' type="radio" name='payment' />
                           <label htmlFor='banktransfer'>Bank Transfer</label>
                         </span>
                         <span>
-                          <input id='stripe' type="radio" name='payment' />
+                          <input onChange={(e) => setPayMethod(e.target.value)} value='Stripe'
+                            id='stripe' type="radio" name='payment' />
                           <label htmlFor='stripe'>Stripe</label>
                         </span>
                         <span>
-                          <input id='efpos' type="radio" name='payment' />
+                          <input onChange={(e) => setPayMethod(e.target.value)} value='EFPOS'
+                            id='efpos' type="radio" name='payment' />
                           <label htmlFor='efpos'>EFPOS</label>
                         </span>
+                        <span className='rec-payment-input'>
+                          <label htmlFor='received-payment'><b>Value: </b></label>
+                          <input onChange={(e) => setPayValue(parseFloat(e.target.value))} value={payValue}
+                            id='received-payment' type="number" placeholder='Enter received value' />
+                        </span>
+                        {payValue === '' ? <></> :
+                          <button onClick={() => updatePayment()}>Update</button>}
                       </div>
                       <div>
+                        {paymentList.length === 0 ?<></>:
                         <table id="tblSearch" className="table table-hover nowrap my-3">
                           <thead style={{ backgroundColor: "#00CED1" }} >
                             <tr>
-                              <th className="first" style={{ width: '25%' }}>Date</th>
-                              <th className="second" style={{ width: '45%' }}>Payment Method</th>
+                              <th className="first" style={{ width: '45%' }}>Date</th>
+                              <th className="second" style={{ width: '25%' }}>Payment Method</th>
                               <th className="second" style={{ width: '15%' }}>Payment Received</th>
                             </tr>
                           </thead>
                           <tbody>
-                            <tr>
-                              <td className="first" style={{ width: '25%' }}>01/02/2021</td>
-                              <td className="second" style={{ width: '45%' }}>Stripe</td>
-                              <td className="second" style={{ width: '15%' }}>$20</td>
-                            </tr>
-                            <tr>
+                            {paymentList.map((v, i) => 
+                              <tr key={i}>
+                                <td className="first" style={{ width: '45%' }}>{v.date.toLocaleString()}</td>
+                                <td className="second" style={{ width: '25%' }}>{v.payMethod}</td>
+                                <td className="second" style={{ width: '15%' }}>${v.payValue}</td>
+                              </tr>
+                            )}
+                            
+                            {/* <tr>
                               <td className="first" style={{ width: '25%' }}>03/02/2021</td>
                               <td className="second" style={{ width: '45%' }}>Cheque</td>
                               <td className="second" style={{ width: '15%' }}>$35</td>
@@ -311,7 +351,7 @@ function GenerateInvoice() {
                               <td className="first" style={{ width: '25%' }}>01/03/2021</td>
                               <td className="second" style={{ width: '45%' }}>Bank Transfer</td>
                               <td className="second" style={{ width: '15%' }}>$65</td>
-                            </tr>
+                            </tr> */}
                             {/* {invoice.selectedInvoice.listItems.map((v, i) =>
                               <tr key={i}>
                                 <td className="first">{v.longDescription}</td>
@@ -320,7 +360,7 @@ function GenerateInvoice() {
                             )} */}
 
                           </tbody>
-                        </table>
+                        </table>}
                       </div>
                       <div className='amount-details'>
                         <div>
@@ -329,17 +369,17 @@ function GenerateInvoice() {
                         </div>
                         <div>
                           <p><b>Paid Amount :</b></p>
-                          <p>$0</p>
+                          <p>${paidAmount}</p>
                         </div>
                         <div>
                           <p><b>Balance Amount :</b></p>
-                          <p>${totalPrice}</p>
+                          <p>${totalPrice-paidAmount}</p>
                         </div>
                       </div>
                     </div>
-                        <div class="modal-footer">
+                        <div className="modal-footer">
                       {/* <h3>Modal Footer</h3> */}
-                      <button>Send</button>
+                      {/* <button>Send</button> */}
                         </div>
                     </div>
 

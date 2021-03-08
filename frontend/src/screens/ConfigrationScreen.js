@@ -36,9 +36,9 @@ function ConfigurationScreen(props) {
 
           <div id="pages_maincontent">
             <h2 className="page_title page1" >
-              <i onClick={props.history.goBack} class="fa fa-chevron-left back-ico" aria-hidden="true"></i>
+              <i onClick={props.history.goBack} className="fa fa-chevron-left back-ico" aria-hidden="true"></i>
 
-              <i class="fa fa-cog" aria-hidden="true"></i>
+              <i className="fa fa-cog" aria-hidden="true"></i>
                   &nbsp; Configuration
                 </h2>
             <h3 id="dvResellerName" >

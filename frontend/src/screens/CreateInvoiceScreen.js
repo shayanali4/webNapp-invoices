@@ -60,7 +60,7 @@ function CreateInvoiceScreen(props) {
       <Header />
     <div id="pages_maincontent">
       <h2 className="page_title">
-        <i onClick={props.history.goBack} class="fa fa-chevron-left back-ico" aria-hidden="true"></i>
+        <i onClick={props.history.goBack} className="fa fa-chevron-left back-ico" aria-hidden="true"></i>
         <i className="fa fa-plus" aria-hidden="true" />
           &nbsp;Create Invoice
       </h2>
@@ -86,10 +86,10 @@ function CreateInvoiceScreen(props) {
               <div className="form_row">
                 <label htmlFor="Select Client">Select Client: </label>
                 <select onChange={(e)=>setClientIndex(e.target.value)} className="form-select form-select-sm" aria-label=".form-select-sm example">
-                  <option selected>Please select a client</option>
+                  <option value='default' default>Please select a client</option>
                   {clientsInfo ? <>
                     {clientsInfo.clients.map((v, i) =>
-                      <option id={i} value={i}>{v.clientName}</option>
+                      <option key={i} id={i} value={i}>{v.clientName}</option>
                   )}
                   </>
                     : <></>}
