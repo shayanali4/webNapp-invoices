@@ -911,3 +911,45 @@ ul.features_list_detailed li .feat_small_icon {
     transform: translate(-50%, -50%);
     width: 59%;
 }
+
+section>.paywithstripe{
+  background-color: lightgray;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 5px;
+}
+section>.paywithstripe>span{
+  margin: 5px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+section>.paywithstripe>span label{
+  margin-left: 5px;
+}
+section>.StripeCheckout{
+    border: none !important;
+    border-radius: 30px !important;
+    color:#008B8B;
+    padding: 5px 20px !important;
+    font-size: 15px;
+    margin: 15px auto !important;
+    background: none !important;
+      background-color: #008B8B !important;
+
+}
+section>.StripeCheckout::after{
+  content: "PAY NOW";
+    border: none !important;
+    border-radius: 30px !important;
+    color: white;
+    font-size: 15px;
+    width: 100%;
+    font-weight: bold;
+}
+section>.StripeCheckout span{
+  display: none !important;background-color: #008B8B;
+  background-image: none;
+  color: #008B8B !important;
+}

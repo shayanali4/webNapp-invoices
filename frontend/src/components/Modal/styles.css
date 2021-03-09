@@ -132,11 +132,11 @@
   padding-top: 30px !important;
 }
 .modal-body>div>span{
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  margin:0 5px;
-  width: fit-content;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin: 5px 5px;
+    flex-direction: column;
 }
 .modal-body>div>span>input{
   margin-right: 5px;
@@ -162,11 +162,21 @@
 .modal-body .rec-payment-input{
   margin-bottom: 20px;
 }
+.modal-body span select{
+      border: 1px solid gray;
+    padding: 5px 10px;
+    margin: 5px 0;
+    color: black;
+    display: block;
+    width: 220px;
+}
 .modal-body .rec-payment-input input{
   border: 1px solid gray;
   padding: 5px 10px;
-  margin: 0 5px;
+  margin: 5px 0;
   color: black;
+    width: 220px;
+
 }
 .rec-payment-input input::-webkit-outer-spin-button,
 .rec-payment-input input::-webkit-inner-spin-button {

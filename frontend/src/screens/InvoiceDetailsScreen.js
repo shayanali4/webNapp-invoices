@@ -105,6 +105,7 @@ function InvoiceDetailsScreen(props) {
   }
   console.log("list items",listItems)
   const submitHandler = () => {
+    const totalAmount = listItems.reduce((prev, next) => prev + next.price, 0);
 
     const generatedInvoice = {
       clientName: choosenClient.clientName,
@@ -113,6 +114,9 @@ function InvoiceDetailsScreen(props) {
       address: choosenClient.address,
       ABN: choosenClient.ABN,
       listItems: listItems,
+      totalAmount: totalAmount,
+      paidAmount: 0,
+      balanceAmount: totalAmount,
     };
     dispatch(newInvoice(generatedInvoice));
 

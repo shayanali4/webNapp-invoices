@@ -45,7 +45,10 @@ function DashboardScreen(props) {
         <Link to="/create" className="homepage_button btn btn-primary btn-lg btn-block">
             Create Invoice</Link>
         <Link to="/invoices" className="homepage_button btn btn-primary btn-lg btn-block">
-          Invoices List
+            Invoices List
+        </Link>
+          <Link to="/customers" className="homepage_button btn btn-primary btn-lg btn-block">
+          Customers List
         </Link>
         <Link to="/services" className="homepage_button btn btn-primary btn-lg btn-block">
           Services

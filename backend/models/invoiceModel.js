@@ -9,6 +9,9 @@ const invoicesSchema = new mongoose.Schema({
     phone: { type: Number },
     ABN: { type: Number },
     servicesList: [Schema.Types.ObjectId],
+    totalAmount: {type: Number},
+    paidAmount: {type: Number},
+    balanceAmount: {type: Number},
 }, { 
     timestamps: true,
 });

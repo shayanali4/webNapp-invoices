@@ -11,6 +11,7 @@ import ServicesScreen from '../screens/ServicesScreen';
 import InvoiceDetailsScreen from '../screens/InvoiceDetailsScreen';
 import ConfigurationScreen from '../screens/ConfigrationScreen';
 import GenerateInvoice from '../screens/GenerateInvoice/GenerateInvoice';
+import CustomersScreen from '../screens/CustomersScreen';
 
 export default class Routers extends Component {
     render() {
@@ -23,6 +24,7 @@ export default class Routers extends Component {
                 <Route path='/services' component={ServicesScreen} />
                 <Route path='/invoice-details' component={InvoiceDetailsScreen} />
                 <Route path='/invoices' component={InvoicesScreen} />
+                <Route path='/customers' component={CustomersScreen} />
                 <Route path='/configuration' component={ConfigurationScreen} />
             </Router>
        )

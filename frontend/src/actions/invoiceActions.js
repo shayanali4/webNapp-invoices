@@ -1,7 +1,17 @@
 import Axios from "axios";
 import { useSelector } from "react-redux";
 import { serverAddress } from "../constants/dbConstants";
-import { CLIENT_LIST_FAIL, CLIENT_LIST_REQUEST, CLIENT_LIST_SUCCESS, CLIENT_SAVE_FAIL, CLIENT_SAVE_REQUEST, CLIENT_SAVE_SUCCESS, INVOICE_LIST_FAIL, INVOICE_LIST_REQUEST, INVOICE_LIST_SUCCESS, INVOICE_SAVE_FAIL, INVOICE_SAVE_REQUEST, INVOICE_SAVE_SUCCESS, SERVICE_LIST_FAIL, SERVICE_LIST_REQUEST, SERVICE_LIST_SUCCESS, SERVICE_SAVE_FAIL, SERVICE_SAVE_REQUEST, SETTINGS_INFO_REQUEST, SETTINGS_INFO_SUCCESS, SETTINGS_INFO_FAIL, SETTINGS_SAVE_SUCCESS, SETTINGS_SAVE_FAIL, SETTINGS_SAVE_REQUEST } from "../constants/invoiceConstants";
+import {
+    CLIENT_LIST_FAIL, CLIENT_LIST_REQUEST, CLIENT_LIST_SUCCESS,
+    CLIENT_SAVE_FAIL, CLIENT_SAVE_REQUEST, CLIENT_SAVE_SUCCESS,
+    INVOICE_LIST_FAIL, INVOICE_LIST_REQUEST, INVOICE_LIST_SUCCESS,
+    INVOICE_SAVE_FAIL, INVOICE_SAVE_REQUEST, INVOICE_SAVE_SUCCESS,
+    UPDATE_PAYMENT_REQUEST, UPDATE_PAYMENT_SUCCESS, UPDATE_PAYMENT_FAIL,
+    SERVICE_LIST_FAIL, SERVICE_LIST_REQUEST, SERVICE_LIST_SUCCESS,
+    SERVICE_SAVE_FAIL, SERVICE_SAVE_REQUEST, SETTINGS_INFO_REQUEST,
+    SETTINGS_INFO_SUCCESS, SETTINGS_INFO_FAIL, SETTINGS_SAVE_SUCCESS,
+    SETTINGS_SAVE_FAIL, SETTINGS_SAVE_REQUEST
+} from "../constants/invoiceConstants";
 
 
 // Client Actions
@@ -160,7 +170,10 @@ export const newInvoice = (invoice) => async (dispatch) => {
             phone: invoice.phone,
             address: invoice.address,
             ABN: invoice.ABN,
-            listItems: invoice.listItems
+            listItems: invoice.listItems,
+            totalAmount: invoice.totalAmount,
+            paidAmount: invoice.paidAmount,
+            balanceAmount: invoice.balanceAmount,
         });
         console.log("new invoice action",invoice)
         console.log('created Innvoice abc received ',data)
@@ -216,6 +229,36 @@ export const selectInvoice = (invoice) => async (dispatch) => {
      } catch (err) {
         dispatch({
             type: INVOICE_SAVE_FAIL,
+            payload: err.response && err.response.data.message ?
+                err.response.data.message : err.message,
+        });
+    }
+};
+
+// Update Payment List
+export const updatePaymentDetails = (payMethod, payValue, date) => async (dispatch) => {
+    const user = localStorage.getItem('userInfo') ?
+        JSON.parse(localStorage.getItem('userInfo'))
+        : null;
+    const companyId = user.companyId;
+    // console.log("invoice action", invoice)
+    dispatch({
+        type: UPDATE_PAYMENT_REQUEST,
+    });
+    try {
+        const { data } = await Axios.post(`${serverAddress}/api/invoices/updatepayment`, {
+            payMethod, payValue, date
+        });
+        // console.log("new invoice action",invoice)
+        console.log('updatwed Innvoice payement ',data)
+        dispatch({
+            type: UPDATE_PAYMENT_SUCCESS,
+            payload: data,
+        });
+    } catch (err) {
+        console.log("error",err)
+        dispatch({
+            type: UPDATE_PAYMENT_FAIL,
             payload: err.response && err.response.data.message ?
                 err.response.data.message : err.message,
         });

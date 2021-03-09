@@ -7,6 +7,8 @@ import Modal from '../../components/Modal/Modal';
 import './style.css';
 import { settingsReducer } from '../../reducers/invoiceReducers';
 import { sendEmailBackend } from '../../actions/emailActions';
+import { updatePaymentDetails } from '../../actions/invoiceActions';
+import StripePayment from '../../components/StripePayment/StripePayment';
 
 function GenerateInvoice() {
   const [smsModal, setSmsModal] = useState(false);
@@ -25,6 +27,7 @@ function GenerateInvoice() {
   const [payMethod, setPayMethod] = useState('');
   const [payValue, setPayValue] = useState('');
   const [payDate, setPayDate] = useState('');
+  const [stripePayment, SetStripePayment] = useState('')
   const dispatch = useDispatch();
 
   let gst = 0;
@@ -64,12 +67,30 @@ function GenerateInvoice() {
   }
 
   const updatePayment = () => {
-    let date = new Date();
+    const date = GetFormattedDate();
     setPayDate(date)
     setPaymentList(oldArray => [...oldArray, { payMethod, payValue, date }]);
     setPayValue('');
     
+
+    dispatch(updatePaymentDetails(payMethod, payValue, date));
   };
+
+  const GetFormattedDate=()=> {
+    var todayTime = new Date();
+    var month = todayTime.getMonth()+1;
+    var day = todayTime.getDate();
+    var year = todayTime.getFullYear();
+    var hours = todayTime.getHours();
+    var minutes = todayTime.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return day + "/" + month + "/" + year + " , " + strTime;
+  }
+
   const receiver = 'shayanali4@live.com';
 
   const sendEmail = () => {
@@ -210,6 +231,23 @@ function GenerateInvoice() {
                 </div>
               </section>
               <br />
+              <section>
+                <div className="paywithstripe">
+                  <p>Would you like to pay using your Debit/Credit Card?</p>
+                  <span>
+                    <input onChange={(e)=>SetStripePayment(e.target.value)} id="pay-yes" type="radio" name="pay-now" value='yes' />
+                    <label htmlFor="pay-yes">Yes</label>
+                  </span>
+                  <span>
+                    <input onChange={(e)=>SetStripePayment(e.target.value)} id="pay-no" type="radio" name="pay-now" value='no' />
+                    <label htmlFor="pay-no">No</label>
+                  </span>
+                </div>
+                {stripePayment === 'yes' ?
+                  <StripePayment name={invoice.selectedInvoice.clientName}
+                  amount={totalPrice} email={invoice.selectedInvoice.email} /> : <></>}
+              </section>
+              <br />
               <section className="admin-use">
                 <h4>For Admin Use Only</h4>
                 <p>Send directly to your customer</p>
@@ -289,8 +327,8 @@ function GenerateInvoice() {
                         </div>
                     <div className="modal-body">
                       <div className="received-payment">
-                        <p><b>Payment Method :</b></p>
-                        <span>
+                        {/* <p><b>Payment Method :</b></p> */}
+                        {/* <span>
                           <input onChange={(e) => setPayMethod(e.target.value)} value='Cash'
                             id='cash' type="radio" name='payment' />
                           <label htmlFor='cash'>Cash</label>
@@ -314,14 +352,25 @@ function GenerateInvoice() {
                           <input onChange={(e) => setPayMethod(e.target.value)} value='EFPOS'
                             id='efpos' type="radio" name='payment' />
                           <label htmlFor='efpos'>EFPOS</label>
+                        </span> */}
+                        <span>
+                          <label htmlFor='payment-option'><b>Paayment Method: </b></label>
+                          <select id='payment-option' onChange={(e) => setPayMethod(e.target.value)}>
+                            <option value='' default>Please select payment option</option>
+                            <option value='Cash'>Cash</option>
+                            <option value='Cheque'>Cheque</option>
+                            <option value='Bank Transfer'>Bank Transfer</option>
+                            <option value='Stripe'>Stripe</option>
+                            <option value='EFPOS'>EFPOS</option>
+                          </select>
                         </span>
                         <span className='rec-payment-input'>
                           <label htmlFor='received-payment'><b>Value: </b></label>
                           <input onChange={(e) => setPayValue(parseFloat(e.target.value))} value={payValue}
                             id='received-payment' type="number" placeholder='Enter received value' />
                         </span>
-                        {payValue === '' ? <></> :
-                          <button onClick={() => updatePayment()}>Update</button>}
+                        {payValue === '' && payMethod==='' ? <></> :
+                          <button onClick={() => updatePayment()}>Payment Received</button>}
                       </div>
                       <div>
                         {paymentList.length === 0 ?<></>:

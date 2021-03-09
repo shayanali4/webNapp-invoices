@@ -34,6 +34,9 @@ const companySchema = new mongoose.Schema({
             address: { type: String },
             phone: { type: Number },
             ABN: { type: Number },
+            totalAmount: {type: Number},
+            paidAmount: {type: Number},
+            balanceAmount: {type: Number},
             listItems: [
                 {
                     shortDescription: { type: String, required: true},

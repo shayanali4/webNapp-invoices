@@ -14,6 +14,8 @@
   "license": "ISC",
   "bugs": {},
   "dependencies": {
+    "@stripe/react-stripe-js": "^1.4.0",
+    "@stripe/stripe-js": "^1.13.1",
     "D": "^1.0.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
@@ -24,7 +26,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.8",
     "nodemailer": "^6.5.0",
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.6",
+    "react-stripe-checkout": "^2.6.3"
   },
   "devDependencies": {
     "eslint": "^7.15.0",
