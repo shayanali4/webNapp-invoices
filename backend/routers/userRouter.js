@@ -25,7 +25,9 @@ userRouter.post('/signin', expressAsyncHandler(async (req, res) => {
     console.log(req.body)
     const company = await Company.findOne({ users: { $elemMatch: { email: req.body.email } } });
     if (!company) {
-        res.send({ message:'Invalid Email Address'})
+        res.status(401).send({
+        message: 'Invalid Email Address'});
+        
     }
     const user = company.users.filter(x => x.email === req.body.email)
     if (user[0]) {

@@ -38,7 +38,7 @@ function DashboardScreen(props) {
       </div>
       {userInfo ?
       <h3 id="dvResellerName" >
-          Welcome {userInfo.userName}
+          Welcome {userInfo.email.substring(0, userInfo.email.lastIndexOf("@"))}
         </h3> :
         <></>}          
       <div className="page_single layout_fullwidth_padding">
