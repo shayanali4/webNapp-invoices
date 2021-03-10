@@ -83,6 +83,42 @@ export const newclient = (clientName, companyName, email, address, phone, ABN ) 
     }
 };
 
+// Edit Customer
+export const editCustomer = (_id, clientName, companyName, email, address, phone, ABN ) => async (dispatch) => {
+    const user = localStorage.getItem('userInfo') ?
+        JSON.parse(localStorage.getItem('userInfo'))
+        : null;
+    const companyId = user.companyId;
+    dispatch({
+        type: CLIENT_SAVE_REQUEST,
+        payload: {
+            companyId,
+            _id,
+            clientName,
+            companyName,
+            email,
+            address,
+            phone,
+            ABN 
+        }
+    });
+    try {
+        const { data } = await Axios.post(`${serverAddress}/api/clients/update`, { companyId, _id, clientName, companyName, email, address, phone, ABN });
+        console.log("client received==>",data)
+        dispatch({
+            type: CLIENT_SAVE_SUCCESS,
+            payload: data.selectedClient[0],
+        });
+     } catch (err) {
+        dispatch({
+            type: CLIENT_SAVE_FAIL,
+            payload: err.response && err.response.data.message ?
+                err.response.data.message : err.message,
+        });
+    }
+};
+
+
 // Services
 
 // Get Existing Services List

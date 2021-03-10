@@ -15,13 +15,16 @@ function CustomersScreen(props) {
   }, [dispatch]);
 
   useEffect(() => {
-    if (!userInfo) {
+    if (!userInfo ) {
       props.history.push('/');
     }
   }, [props.history, userInfo]);
 
-  const clientsInfo = useSelector((state) => state.clientInfo.clientsList);
 
+  const clientsInfo = useSelector((state) => state.clientInfo.clientsList);
+  const editCustomer = () => {
+    props.history.push('/customers/edit');
+  }
 
   return (
       <>
@@ -39,25 +42,21 @@ function CustomersScreen(props) {
           {clientsInfo ?
             <ul className="list">
               {clientsInfo.clients.map((v, i) =>
-                <li  key={i}>
+                <li key={i}>
                   <div className="details">
                     <div><b>{v.clientName}</b></div>
                     <div>
                       <span className="first">
                         {v.email}
                       </span>
-                      <span className="first">
+                      <span>
                         {v.phone}
                       </span>
-                      <span>
-                        {v.ABN}
-                          </span>
                     </div>
                   </div>
-                  {/* <div className="actions">
-                    <i onClick={() => editInvoice()} className="fa fa-pencil-square" aria-hidden="true" />
-                    <i onClick={() => deleteInvoice()} className="fa fa-trash" aria-hidden="true" />
-                  </div> */}
+                  <div className="actions">
+                    <i onClick={() => editCustomer()} className="fas fa-user-edit" aria-hidden="true" />
+                  </div>
                 </li>
               )}
                     
