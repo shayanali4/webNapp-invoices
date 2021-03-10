@@ -11,7 +11,7 @@ const companySchema = new mongoose.Schema({
     ],
     users: [
         {
-            userName: { type: String, unique:true },
+            email: { type: String, unique:true },
             password: { type: String},
             status: {type: String},
         }

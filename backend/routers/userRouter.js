@@ -1,7 +1,6 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import bcrypt from 'bcryptjs';
-import User from '../models/userModel.js';
 import data from '../data.js';
 import Company from '../models/companyModel.js';
 
@@ -23,22 +22,27 @@ userRouter.get('/seed', expressAsyncHandler(async (req, res) => {
 }));
 
 userRouter.post('/signin', expressAsyncHandler(async (req, res) => {
-    const company = await Company.findOne({ users: { $elemMatch: { userName: req.body.userName } } });
-    const user = company.users.filter(x => x.userName === req.body.userName)
+    console.log(req.body)
+    const company = await Company.findOne({ users: { $elemMatch: { email: req.body.email } } });
+    if (!company) {
+        res.send({ message:'Invalid Email Address'})
+    }
+    const user = company.users.filter(x => x.email === req.body.email)
     if (user[0]) {
         // console.log("user", user[0].password);
         if (bcrypt.compareSync(req.body.password, user[0].password)) {
             res.send({
                 _id: user[0]._id,
                 companyId: company._id,
-                userName: user[0].userName,
+                email: user[0].email,
                 status: user[0].status,
             });
         return;
         }
     }
+
     res.status(401).send({
-        message: 'Invalid User Name or password'});
+        message: 'Invalid Passowrd'});
     })
 );
 

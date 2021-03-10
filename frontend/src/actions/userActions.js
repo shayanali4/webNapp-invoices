@@ -2,16 +2,16 @@ import Axios from "axios";
 import { serverAddress } from "../constants/dbConstants";
 import { USER_SIGNIN_FAIL, USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS, USER_SIGNOUT } from "../constants/userConstants"
 
-export const signin = (userName, password) => async (dispatch) => {
+export const signin = (email, password) => async (dispatch) => {
     dispatch({
         type: USER_SIGNIN_REQUEST,
         payload: {
-            userName,
+            email,
             password
         }
     });
     try {
-        const { data } = await Axios.post(`${serverAddress}/api/users/signin`, { userName, password });
+        const { data } = await Axios.post(`${serverAddress}/api/users/signin`, { email, password });
         dispatch({
             type: USER_SIGNIN_SUCCESS,
             payload: data,

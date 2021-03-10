@@ -7,14 +7,14 @@ import Header from "../components/Header";
 
 function LoginScreen(props) {
 
-  const [userName, setUserName] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo, loading, error } = userSignin;    
     
     const dispatch = useDispatch();
     const submitHandler = () => {
-        dispatch(signin(userName, password));
+        dispatch(signin(email, password));
     };
     useEffect(() => {
         if (userInfo) {
@@ -42,7 +42,7 @@ function LoginScreen(props) {
             <div className="contactform" id="dvform">
               <div className="form_row">
                 <label>UserName: </label>
-                <input type="text" value={userName} onChange={(e)=>setUserName(e.target.value)} placeholder="Enter Your Username" className="form_input required" />
+                <input type="email" value={email} onChange={(e)=>setEmail(e.target.value)} placeholder="Enter Your Username" className="form_input required" />
               </div>
               <div className="form_row">
                 <label>Password: </label>
