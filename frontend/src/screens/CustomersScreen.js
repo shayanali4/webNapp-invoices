@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import {useDispatch, useSelector} from 'react-redux';
-import { clientList, invoiceList, selectInvoice } from "../actions/invoiceActions";
+import { clientList, invoiceList, oldclient, selectInvoice } from "../actions/invoiceActions";
 import Header from "../components/Header";
 import { selectedInvoiceReducer } from "../reducers/invoiceReducers";
 
 function CustomersScreen(props) {
+  const [selectedClient, setSelectedClient] = useState({});
+  const [editFlag, setEditFlag] = useState(false);
+
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo } = userSignin;  
   
@@ -20,10 +23,18 @@ function CustomersScreen(props) {
     }
   }, [props.history, userInfo]);
 
+  useEffect(() => {
+    if (editFlag) {
+      dispatch(oldclient(selectedClient));
+      props.history.push('/customers/edit');
+    }
+    setEditFlag(false);
+  }, [dispatch, props.history, selectedClient,editFlag]);
 
   const clientsInfo = useSelector((state) => state.clientInfo.clientsList);
-  const editCustomer = () => {
-    props.history.push('/customers/edit');
+  const editCustomer = (index) => {
+    setSelectedClient(clientsInfo.clients[index]);
+
   }
 
   return (
@@ -55,7 +66,7 @@ function CustomersScreen(props) {
                     </div>
                   </div>
                   <div className="actions">
-                    <i onClick={() => editCustomer()} className="fas fa-user-edit" aria-hidden="true" />
+                    <i onClick={() => { editCustomer(i); setEditFlag(true); }} className="fas fa-user-edit" aria-hidden="true" />
                   </div>
                 </li>
               )}

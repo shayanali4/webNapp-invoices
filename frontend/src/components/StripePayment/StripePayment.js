@@ -9,7 +9,8 @@ function StripePayment(props) {
   return(
     <StripeCheckout
       stripeKey="pk_test_51ISxqYIPvcR2SEMAc9j2gHUbMxhQDT6pSw91HWp5AFhBvrYTemkqn7MDqeVpfNXo6IzjI3lOXefnmNNWJSBXZ0D200UgfqFAUn"
-      token={handleToken} amount={props.amount*100} name={props.name} email={props.email} />
+      token={handleToken} amount={props.amount * 100} name={props.name}
+      email={props.email} allowRememberMe='false' />
     )
   }
 export default StripePayment;

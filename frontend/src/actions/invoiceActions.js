@@ -272,23 +272,21 @@ export const selectInvoice = (invoice) => async (dispatch) => {
 };
 
 // Update Payment List
-export const updatePaymentDetails = (payMethod, payValue, date) => async (dispatch) => {
+export const updatePaymentDetails = (_id, paymentList) => async (dispatch) => {
     const user = localStorage.getItem('userInfo') ?
         JSON.parse(localStorage.getItem('userInfo'))
         : null;
     const companyId = user.companyId;
-    // console.log("invoice action", invoice)
+    console.log("invoice action",companyId,_id, paymentList)
     dispatch({
         type: UPDATE_PAYMENT_REQUEST,
     });
     try {
-        const { data } = await Axios.post(`${serverAddress}/api/invoices/updatepayment`, {
-            payMethod, payValue, date
-        });
+        const { data } = await Axios.post(`${serverAddress}/api/invoices/updatepayment`, {companyId, _id, paymentList });
         // console.log("new invoice action",invoice)
         console.log('updatwed Innvoice payement ',data)
         dispatch({
-            type: UPDATE_PAYMENT_SUCCESS,
+            type: INVOICE_SAVE_SUCCESS,
             payload: data,
         });
     } catch (err) {

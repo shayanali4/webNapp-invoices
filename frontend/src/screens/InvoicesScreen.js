@@ -82,10 +82,9 @@ function InvoicesScreen(props) {
                           </span>
                     </div>
                   </div>
-                  {/* <div className="actions">
-                    <i onClick={() => editInvoice()} className="fa fa-pencil-square" aria-hidden="true" />
-                    <i onClick={() => deleteInvoice()} className="fa fa-trash" aria-hidden="true" />
-                  </div> */}
+                  <div className="actions">
+                    <i onClick={() => { editInvoice(i); }} className="fas fa-edit" aria-hidden="true" />
+                  </div>
                 </li>
               )}
                     

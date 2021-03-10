@@ -36,7 +36,14 @@ const companySchema = new mongoose.Schema({
             ABN: { type: Number },
             totalAmount: {type: Number},
             paidAmount: {type: Number},
-            balanceAmount: {type: Number},
+            balanceAmount: { type: Number },
+            paymentList: [
+                {
+                    payValue: { type: Number, required: true},
+                    payMethod: { type: String },
+                    date: { type: String }
+                }
+            ],
             listItems: [
                 {
                     shortDescription: { type: String, required: true},

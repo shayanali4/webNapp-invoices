@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BitlyClient } from 'bitly-react';
 import { Link } from 'react-router-dom';
@@ -23,7 +23,7 @@ function GenerateInvoice() {
   const [emailTemplate, setEmailTemplate] = useState(settings.emailTemplate);  
   const [smsTemplate, setSmsTemplate] = useState(settings.smsTemplate);
 
-  const [paymentList, setPaymentList] = useState([]);
+  const [paymentList, setPaymentList] = useState(invoice.selectedInvoice.paymentList);
   const [payMethod, setPayMethod] = useState('');
   const [payValue, setPayValue] = useState('');
   const [payDate, setPayDate] = useState('');
@@ -36,9 +36,15 @@ function GenerateInvoice() {
     totalPrice = invoice.selectedInvoice.listItems.reduce((prev, next) => prev + next.price, 0);
     gst = totalPrice / 11;
   }
-  let paidAmount = paymentList.reduce((prev, next) => prev + next.payValue, 0);
+  let paidAmount = 0;
+  if (invoice.selectedInvoice) {
+    // setPaymentList(invoice.selectedInvoice.paymentList);
+    paidAmount = invoice.selectedInvoice.paymentList.reduce((prev, next) => prev + next.payValue, 0);
+  }
   console.log('paid =>',paidAmount)
   
+  let balanceAmount = totalPrice - paidAmount;
+
   const foot = settings.invoiceFooter;
   const bitly = new BitlyClient('930b46de2b827c05809757b390d38b7ed5d5613b', {});
   const generateUrl = async () => {
@@ -72,9 +78,13 @@ function GenerateInvoice() {
     setPaymentList(oldArray => [...oldArray, { payMethod, payValue, date }]);
     setPayValue('');
     
-
-    dispatch(updatePaymentDetails(payMethod, payValue, date));
   };
+
+  useEffect(() => {
+    if (paymentList.length >= 1) {
+      dispatch(updatePaymentDetails(invoice.selectedInvoice._id, paymentList));
+    }
+  }, [dispatch, invoice.selectedInvoice._id, paymentList]);
 
   const GetFormattedDate=()=> {
     var todayTime = new Date();
@@ -203,10 +213,10 @@ function GenerateInvoice() {
                         </tr>
                         
                         <tr className="amount-total">
-                          <td className="second">Amount Paid: $<span id="ctl04_lblPaidAmount">0.00</span></td>
+                          <td className="second">Amount Paid: $<span id="ctl04_lblPaidAmount">{paidAmount}</span></td>
                         </tr>
                         <tr className="amount-total">
-                          <td className="second">Balance Amount: $<span id="ctl04_lblBalanceAmount">{totalPrice}</span></td>
+                          <td className="second">Balance Amount: $<span id="ctl04_lblBalanceAmount">{balanceAmount}</span></td>
                         </tr>
                       </tbody></table>
                   </div>
@@ -245,7 +255,7 @@ function GenerateInvoice() {
                 </div>
                 {stripePayment === 'yes' ?
                   <StripePayment name={invoice.selectedInvoice.clientName}
-                  amount={totalPrice} email={invoice.selectedInvoice.email} /> : <></>}
+                  amount={balanceAmount} email={invoice.selectedInvoice.email} /> : <></>}
               </section>
               <br />
               <section className="admin-use">
@@ -368,13 +378,15 @@ function GenerateInvoice() {
                           <label htmlFor='received-payment'><b>Value: </b></label>
                           <input onChange={(e) => setPayValue(parseFloat(e.target.value))} value={payValue}
                             id='received-payment' type="number" placeholder='Enter received value' />
+          
                         </span>
                         {payValue === '' && payMethod==='' ? <></> :
                           <button onClick={() => updatePayment()}>Payment Received</button>}
                       </div>
                       <div>
                         {paymentList.length === 0 ?<></>:
-                        <table id="tblSearch" className="table table-hover nowrap my-3">
+                          <table id="tblSearch" className="table table-hover nowrap my-3">
+                            
                           <thead style={{ backgroundColor: "#00CED1" }} >
                             <tr>
                               <th className="first" style={{ width: '45%' }}>Date</th>
@@ -383,7 +395,7 @@ function GenerateInvoice() {
                             </tr>
                           </thead>
                           <tbody>
-                            {paymentList.map((v, i) => 
+                            {invoice.selectedInvoice.paymentList.map((v, i) => 
                               <tr key={i}>
                                 <td className="first" style={{ width: '45%' }}>{v.date.toLocaleString()}</td>
                                 <td className="second" style={{ width: '25%' }}>{v.payMethod}</td>

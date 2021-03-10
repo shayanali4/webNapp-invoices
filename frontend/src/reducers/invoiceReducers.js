@@ -68,12 +68,16 @@ export const selectedInvoiceReducer = (state = {}, action) => {
             };
         case INVOICE_SAVE_FAIL:
             return { loading: false, error: action.payload };
-        // case UPDATE_PAYMENT_SUCCESS:
-        //     return {
-        //         loading: false,
-        //         selectedInvoice : action.payload
-        //     }
+        case UPDATE_PAYMENT_SUCCESS:
+            return {
+                loading: false,
+                selectedInvoice: {
+                    ...state.invoiceInfo.selectedInvoice,
+                    paymentList: action.payload
+                }
+            }
         default:
+
             return state;
     }
 };
