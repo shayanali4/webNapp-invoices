@@ -24,7 +24,7 @@ function GenerateInvoice() {
   const [emailTemplate, setEmailTemplate] = useState(settings.emailTemplate);  
   const [smsTemplate, setSmsTemplate] = useState(settings.smsTemplate);
 
-  const [paymentList, setPaymentList] = useState(invoice.selectedInvoice.paymentList);
+  const [paymentList, setPaymentList] = useState(invoice.selectedInvoice?invoice.selectedInvoice.paymentList:[]);
   const [payMethod, setPayMethod] = useState('');
   const [payValue, setPayValue] = useState('');
   const [payDate, setPayDate] = useState('');
@@ -93,10 +93,12 @@ function GenerateInvoice() {
   };
 
   useEffect(() => {
-    if (paymentList.length >= 1) {
-      dispatch(updatePaymentDetails(invoice.selectedInvoice._id, paymentList));
+    if (invoice.selectedInvoice) {
+      if (paymentList.length >= 1) {
+        dispatch(updatePaymentDetails(invoice.selectedInvoice._id, paymentList));
+      }
     }
-  }, [dispatch, invoice.selectedInvoice._id, paymentList]);
+    }, [dispatch, invoice.selectedInvoice, paymentList]);
 
   const GetFormattedDate=()=> {
     var todayTime = new Date();
@@ -391,7 +393,7 @@ function GenerateInvoice() {
                         </span>
                         <span className='rec-payment-input'>
                           <label htmlFor='received-payment'><b>Value: </b></label>
-                          <input max={balanceAmount} min="0" onChange={(e) => setPayValue(parseFloat(e.target.value))} value={payValue}
+                          <input required max={balanceAmount} min="0" onChange={(e) => setPayValue(parseFloat(e.target.value))} value={payValue}
                             id='received-payment' type="number" placeholder='Enter received value' />
           
                         </span>

@@ -30,8 +30,8 @@ function ConfigurationScreen(props) {
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(updateSettings(stripeKey, invoiceFooter, emailTemplate, smsTemplate));
-    
-            setMessageFlag(true);
+
+        setTimeout(()=>{setMessageFlag(true)},1000)
         setTimeout(()=>{setMessageFlag(false)},3000)
   }
     return (
@@ -50,7 +50,7 @@ function ConfigurationScreen(props) {
               Make changes here
                 </h3>
             {messageFlag ?
-                        <MessageBox variant='success'>Customer Details Updated</MessageBox> : <></>}
+                        <MessageBox variant='success'>Settings Updated</MessageBox> : <></>}
             
             <div className="container-fluid1 container-fluid">
               <div className="row">

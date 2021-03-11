@@ -388,7 +388,9 @@ p.small{
 .form-group {
   margin-bottom: 10px;
 }
-
+h3{
+  margin: 0 !important;
+}
 
 #dvResellerName{
   margin: 0;
@@ -600,7 +602,7 @@ cursor: pointer;
 margin-right: 200px;
 }
 .form-group1{
-  margin-top: 7px;
+  margin-top: 20PX;
 }
 
 /* th{
@@ -978,20 +980,21 @@ section .stripe-payment button{
 }
 
 .list1 li{
-  margin-bottom: none;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   text-align: justify;
+  border-bottom: 1px solid gray !important;
+  margin-bottom: 5px;
 }
-.list1 .details1{
+.list1>.details1{
  width: 70%;
  overflow-wrap: break-word;
 }
-.list1 .details1 .space{
+.list1>.details1 .space{
   margin-top: 5px;  
  }
- .list1{
-  margin: 32px 0;
+ ul.list1{
+  margin: 15px 0;
 
 }

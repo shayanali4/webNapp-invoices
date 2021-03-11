@@ -39,7 +39,7 @@ function EditCustomersScreen(props) {
         e.preventDefault();
         dispatch(editCustomer(choosenClient._id, customerName, companyName, email, address, phone, ABN));
         // props.history.push('/');
-        setMessageFlag(true);
+        setTimeout(()=>{setMessageFlag(true)},1000)
         setTimeout(()=>{setMessageFlag(false)},3000)
     };
 
