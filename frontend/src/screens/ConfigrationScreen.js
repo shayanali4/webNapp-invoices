@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSettingsInfo, updateSettings } from "../actions/invoiceActions";
 import Header from "../components/Header";
+import MessageBox from "../components/MessageBox";
 
 function ConfigurationScreen(props) {
   
@@ -17,6 +18,7 @@ function ConfigurationScreen(props) {
   const [invoiceFooter, setInvoiceFooter] = useState(settings.invoiceFooter);
   const [emailTemplate, setEmailTemplate] = useState(settings.emailTemplate);
   const [smsTemplate, setSmsTemplate] = useState(settings.smsTemplate);
+  const [messageFlag, setMessageFlag] = useState(false);
   
   
   const dispatch = useDispatch();
@@ -27,7 +29,10 @@ function ConfigurationScreen(props) {
   
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(updateSettings(stripeKey,invoiceFooter,emailTemplate,smsTemplate));
+    dispatch(updateSettings(stripeKey, invoiceFooter, emailTemplate, smsTemplate));
+    
+            setMessageFlag(true);
+        setTimeout(()=>{setMessageFlag(false)},3000)
   }
     return (
       <>
@@ -44,6 +49,9 @@ function ConfigurationScreen(props) {
             <h3 id="dvResellerName" >
               Make changes here
                 </h3>
+            {messageFlag ?
+                        <MessageBox variant='success'>Customer Details Updated</MessageBox> : <></>}
+            
             <div className="container-fluid1 container-fluid">
               <div className="row">
                 <div className="col-md-12 main123 ">

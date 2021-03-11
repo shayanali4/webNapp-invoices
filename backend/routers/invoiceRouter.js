@@ -20,10 +20,13 @@ invoiceRouter.get('/seed', expressAsyncHandler(async (req, res) => {
 }));
 
 invoiceRouter.post('/new', expressAsyncHandler(async (req, res) => {
+    let company = await Company.findOne({ _id: req.body.companyId });
+    let companyName = company.companyName;
     const invoiceNumber = `INV${Math.floor(1000 + Math.random() * 9000)}`;
     const newInvoice = {
         invoiceNumber: invoiceNumber,
         clientName: req.body.clientName,
+        companyName: companyName,
         email: req.body.email,
         phone: req.body.phone,
         address: req.body.address,
@@ -36,7 +39,6 @@ invoiceRouter.post('/new', expressAsyncHandler(async (req, res) => {
     // console.log(req.body)
     newInvoice.listItems = [...req.body.listItems];
     // console.log("new Invoice",newInvoice)
-    let company = await Company.findOne({ _id: req.body.companyId });
     company.invoices.push(newInvoice);
     // company.invoices.listItems=req.body.listItems;
     // console.log("company",company)

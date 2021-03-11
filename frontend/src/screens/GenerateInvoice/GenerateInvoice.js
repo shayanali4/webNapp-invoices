@@ -9,6 +9,7 @@ import { settingsReducer } from '../../reducers/invoiceReducers';
 import { sendEmailBackend } from '../../actions/emailActions';
 import { updatePaymentDetails } from '../../actions/invoiceActions';
 import StripePayment from '../../components/StripePayment/StripePayment';
+import StripeCard from '../../components/StripeCard/StripeCard';
 
 function GenerateInvoice() {
   const [smsModal, setSmsModal] = useState(false);
@@ -27,7 +28,10 @@ function GenerateInvoice() {
   const [payMethod, setPayMethod] = useState('');
   const [payValue, setPayValue] = useState('');
   const [payDate, setPayDate] = useState('');
-  const [stripePayment, SetStripePayment] = useState('')
+  const [stripePayment, SetStripePayment] = useState('');
+
+  const [balanceFlag, setBalanceFlag] = useState(true);
+
   const dispatch = useDispatch();
 
   let gst = 0;
@@ -45,6 +49,13 @@ function GenerateInvoice() {
   
   let balanceAmount = totalPrice - paidAmount;
 
+  useEffect(() => {
+    if (balanceAmount > 0) {
+      setBalanceFlag(true);
+    } else {
+      setBalanceFlag(false);
+    }
+  }, [balanceAmount, balanceFlag]);
   const foot = settings.invoiceFooter;
   const bitly = new BitlyClient('930b46de2b827c05809757b390d38b7ed5d5613b', {});
   const generateUrl = async () => {
@@ -72,7 +83,8 @@ function GenerateInvoice() {
       tooltip.innerHTML = "Copy to clipboard";
   }
 
-  const updatePayment = () => {
+  const updatePayment = (e) => {
+    e.preventDefault();
     const date = GetFormattedDate();
     setPayDate(date)
     setPaymentList(oldArray => [...oldArray, { payMethod, payValue, date }]);
@@ -241,22 +253,23 @@ function GenerateInvoice() {
                 </div>
               </section>
               <br />
-              <section>
-                <div className="paywithstripe">
-                  <p>Would you like to pay using your Debit/Credit Card?</p>
-                  <span>
-                    <input onChange={(e)=>SetStripePayment(e.target.value)} id="pay-yes" type="radio" name="pay-now" value='yes' />
-                    <label htmlFor="pay-yes">Yes</label>
-                  </span>
-                  <span>
-                    <input onChange={(e)=>SetStripePayment(e.target.value)} id="pay-no" type="radio" name="pay-now" value='no' />
-                    <label htmlFor="pay-no">No</label>
-                  </span>
-                </div>
-                {stripePayment === 'yes' ?
-                  <StripePayment name={invoice.selectedInvoice.clientName}
-                  amount={balanceAmount} email={invoice.selectedInvoice.email} /> : <></>}
-              </section>
+              {balanceFlag ?
+                <section>
+                  <div className="paywithstripe">
+                    <p>Would you like to pay using your Debit/Credit Card?</p>
+                    <span>
+                      <input onChange={(e) => SetStripePayment(e.target.value)} id="pay-yes" type="radio" name="pay-now" value='yes' />
+                      <label htmlFor="pay-yes">Yes</label>
+                    </span>
+                    <span>
+                      <input onChange={(e) => SetStripePayment(e.target.value)} defaultChecked id="pay-no" type="radio" name="pay-now" value='no' />
+                      <label htmlFor="pay-no">No</label>
+                    </span>
+                  </div>
+              
+                  {stripePayment === 'yes' ?
+                    <StripeCard pay={balanceAmount} /> : <></>}
+                </section> : <></>}
               <br />
               <section className="admin-use">
                 <h4>For Admin Use Only</h4>
@@ -336,6 +349,7 @@ function GenerateInvoice() {
                             <h4>Received Payment</h4>
                         </div>
                     <div className="modal-body">
+                      {balanceFlag?
                       <div className="received-payment">
                         {/* <p><b>Payment Method :</b></p> */}
                         {/* <span>
@@ -363,9 +377,10 @@ function GenerateInvoice() {
                             id='efpos' type="radio" name='payment' />
                           <label htmlFor='efpos'>EFPOS</label>
                         </span> */}
+                          <form onSubmit={(e) => updatePayment(e)}>
                         <span>
                           <label htmlFor='payment-option'><b>Paayment Method: </b></label>
-                          <select id='payment-option' onChange={(e) => setPayMethod(e.target.value)}>
+                          <select required id='payment-option' onChange={(e) => setPayMethod(e.target.value)}>
                             <option value='' default>Please select payment option</option>
                             <option value='Cash'>Cash</option>
                             <option value='Cheque'>Cheque</option>
@@ -376,13 +391,14 @@ function GenerateInvoice() {
                         </span>
                         <span className='rec-payment-input'>
                           <label htmlFor='received-payment'><b>Value: </b></label>
-                          <input onChange={(e) => setPayValue(parseFloat(e.target.value))} value={payValue}
+                          <input max={balanceAmount} min="0" onChange={(e) => setPayValue(parseFloat(e.target.value))} value={payValue}
                             id='received-payment' type="number" placeholder='Enter received value' />
           
                         </span>
                         {payValue === '' && payMethod==='' ? <></> :
-                          <button onClick={() => updatePayment()}>Payment Received</button>}
-                      </div>
+                          <button type='submit'>Payment Received</button>}
+                            </form>
+                      </div>:<></>}
                       <div>
                         {paymentList.length === 0 ?<></>:
                           <table id="tblSearch" className="table table-hover nowrap my-3">

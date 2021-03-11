@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { editCustomer } from '../actions/invoiceActions';
 import Header from '../components/Header';
+import MessageBox from '../components/MessageBox';
 
 function EditCustomersScreen(props) {
 
@@ -11,12 +12,14 @@ function EditCustomersScreen(props) {
     const selectedClient = useSelector((state) => state.choosenClientInfo);
     const { choosenClient } = selectedClient;
     
-    const [customerName, setCustomerName] = useState(choosenClient.clientName);
-    const [companyName, setCompanyName] = useState(choosenClient.companyName);
-    const [email, setEmail] = useState(choosenClient.email);
-    const [address, setAddress] = useState(choosenClient.address);
-    const [phone, setPhone] = useState(choosenClient.phone);
-    const [ABN, setABN] = useState(choosenClient.ABN);
+    const [customerName, setCustomerName] = useState(choosenClient?choosenClient.clientName:'');
+    const [companyName, setCompanyName] = useState(choosenClient?choosenClient.companyName:'');
+    const [email, setEmail] = useState(choosenClient?choosenClient.email:'');
+    const [address, setAddress] = useState(choosenClient?choosenClient.address:'');
+    const [phone, setPhone] = useState(choosenClient?choosenClient.phone:'');
+    const [ABN, setABN] = useState(choosenClient?choosenClient.ABN:'');
+
+    const [messageFlag, setMessageFlag] = useState(false);
 
     const dispatch = useDispatch();
     
@@ -26,16 +29,18 @@ function EditCustomersScreen(props) {
         }
     }, [props.history, userInfo]);
     
-    useEffect(() => {
-        if (!choosenClient ) {
-            props.history.push('/customers');
-        }
-    }, [props.history, choosenClient]);
+    // useEffect(() => {
+    //     if (!choosenClient ) {
+    //         props.history.push('/customers');
+    //     }
+    // }, [props.history, choosenClient]);
     
     const submitHandler = (e) => {
         e.preventDefault();
         dispatch(editCustomer(choosenClient._id, customerName, companyName, email, address, phone, ABN));
-        props.history.push('/');
+        // props.history.push('/');
+        setMessageFlag(true);
+        setTimeout(()=>{setMessageFlag(false)},3000)
     };
 
     return (
@@ -50,7 +55,9 @@ function EditCustomersScreen(props) {
         <h3 id="dvResellerName" >
             Edit Customer details here
         </h3>
-        <div className="page_single layout_fullwidth_padding">
+                <div className="page_single layout_fullwidth_padding">
+                    {messageFlag ?
+                        <MessageBox variant='success'>Customer Details Updated</MessageBox> : <></>}
             <div className="contactform" id="dvform">
             
                 <div className="new-client">
@@ -77,12 +84,12 @@ function EditCustomersScreen(props) {
                 <div className="form_row">
                     <label htmlFor="Phone">Phone: </label>
                     <input onChange={(e) => setPhone(e.target.value)} value={phone}
-                        type="number" id="Phone" placeholder="Enter Phone" className="form_input required" />
+                        type="text" id="Phone" placeholder="Enter Phone" className="form_input required" />
                 </div>
                 <div className="form_row">
                     <label htmlFor="ABN">ABN: </label>
                     <input onChange={(e) => setABN(e.target.value)} value={ABN}
-                        type="number" id="ABN" placeholder="Enter ABN" className="form_input required" />
+                        type="text" id="ABN" placeholder="Enter ABN" className="form_input required" />
                 </div>
                 </div>    
             <input onClick={(e) => submitHandler(e)} type="button" id="submit" value='Update' name="submit" className="form_submit" />

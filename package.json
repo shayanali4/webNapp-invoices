@@ -27,7 +27,8 @@
     "mongoose": "^5.11.8",
     "nodemailer": "^6.5.0",
     "nodemon": "^2.0.6",
-    "react-stripe-checkout": "^2.6.3"
+    "react-stripe-checkout": "^2.6.3",
+    "stripe": "^8.138.0"
   },
   "devDependencies": {
     "eslint": "^7.15.0",

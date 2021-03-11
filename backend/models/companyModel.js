@@ -22,13 +22,14 @@ const companySchema = new mongoose.Schema({
             companyName: { type: String },
             email: { type: String },
             address: { type: String },
-            phone: { type: Number },
-            ABN: { type: Number },
+            phone: { type: String },
+            ABN: { type: String },
         }
     ],
     invoices: [
         {
             clientName: { type: String },
+            companyName: {type: String},
             invoiceNumber: {type: String, unique:true},
             email: { type: String },
             address: { type: String },
