@@ -6,7 +6,6 @@ import { signout } from '../actions/userActions';
 import Header from '../components/Header';
 
 function DashboardScreen(props) {
-
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo } = userSignin;    
   const dispatch = useDispatch();
@@ -38,7 +37,7 @@ function DashboardScreen(props) {
       </div>
       {userInfo ?
       <h3 id="dvResellerName" >
-          Welcome {userInfo.email.substring(0, userInfo.email.lastIndexOf("@"))}
+          Welcome {userInfo.email?userInfo.email.substring(0, userInfo.email.lastIndexOf("@")):''}
         </h3> :
         <></>}          
       <div className="page_single layout_fullwidth_padding">

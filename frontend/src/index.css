@@ -378,6 +378,9 @@ background-color: #ccc;
 color:white;
 cursor: pointer;
 }
+p.small{
+  font-size: 12px;
+}
 
 .main123{
   padding: 20px;
