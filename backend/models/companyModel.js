@@ -59,7 +59,16 @@ const companySchema = new mongoose.Schema({
         emailTemplate: { type: String },
         smsTemplate: { type: String },
         invoiceFooter: { type: String },
-    }
+    },
+    paymentData : {
+        amount: { type: Number },
+        currency: { type: String },
+        email: { type: String },
+        liveMode: { type: Boolean },
+        _id: { type: String },
+        date: { type: String },
+        isPaid: { type: Boolean }
+    },
 }, { 
     timestamps: true,
 });

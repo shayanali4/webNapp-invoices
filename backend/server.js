@@ -12,6 +12,7 @@ import companyRouter from './routers/companyRouter.js';
 import settingRouter from './routers/settingRouter.js';
 import emailRouter from './routers/emailRouter.js';
 import { createRequire } from 'module';
+import Company from './models/companyModel.js';
 
 const require = createRequire(import.meta.url);
 
@@ -51,15 +52,34 @@ app.use('/api/companies', companyRouter);
 app.use('/api/email', emailRouter);
 
 app.post('/pay', async (req, res) => {
-    console.log("shaheer")
-    const email=req.body.email
-
+    
     const paymentIntent = await stripe.paymentIntents.create({
-        amount: 1099,
+        amount: req.body.payAmount,
         currency: 'usd',
-        
         payment_method_types: ['card'],
-      });    res.json({client_secret: paymentIntent});
+    });
+    // console.log(paymentIntent)
+    const utcSeconds = paymentIntent.created;
+    let date = new Date(0); // The 0 there is the key, which sets the date to the epoch
+    date.setUTCSeconds(utcSeconds);
+    
+    const paymentData = {
+        amount: paymentIntent.amount,
+        currency: paymentIntent.currency,
+        email: req.body.email,
+        liveMode: paymentIntent.liveMode,
+        _id: paymentIntent.id,
+        date: date,
+        isPaid: true
+    };
+    let company = await Company.findOne({ _id: req.body.companyId });
+    let filteredIndex=company.invoices.findIndex(x => x._id == req.body._id);
+    company.invoices[filteredIndex].stripePayment = paymentData;
+    company.invoices[filteredIndex].paidAmount = paymentData.amount + req.body.paidAmount;
+    company.invoices[filteredIndex].totalAmount = paymentData.amount + req.body.paidAmount;
+    company.invoices[filteredIndex].balance =  0;
+    const updatedCompany = await company.save();
+    res.json({ client_secret: paymentData });
   });
 
 app.get('/', (req, res) => {

@@ -923,19 +923,24 @@ ul.features_list_detailed li .feat_small_icon {
 }
 
 section>.paywithstripe{
-  background-color: lightgray;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 5px;
+    background-color: lightgray;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 5px;
+    flex-direction: column;
+    font-size: 90%;
 }
-section>.paywithstripe>span{
+section>.paywithstripe>div{
+  display: flex;
+}
+section>.paywithstripe span{
   margin: 5px 10px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
 }
-section>.paywithstripe>span label{
+section>.paywithstripe span label{
   margin-left: 5px;
 }
 section>.StripeCheckout{

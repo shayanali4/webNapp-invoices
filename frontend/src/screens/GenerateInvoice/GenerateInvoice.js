@@ -98,7 +98,7 @@ function GenerateInvoice() {
         dispatch(updatePaymentDetails(invoice.selectedInvoice._id, paymentList));
       }
     }
-    }, [dispatch, invoice.selectedInvoice, paymentList]);
+    }, [paymentList]);
 
   const GetFormattedDate=()=> {
     var todayTime = new Date();
@@ -135,49 +135,64 @@ function GenerateInvoice() {
                   <img src="https://onlinepayment.webnapp.com.au/img/logo.jpeg" id="ctl04_logo" alt="logo" />
                 </div>
                 <div className="second">
-                  <span >Email: <span id="ctl04_lblCompanyEmail">aussiesmarketplace@gmail.com</span></span><br />
-                  <span >Phone: <span id="ctl04_lblCompanyPhone">0430496430</span></span><br />
-                  <span >ABN: <span id="ctl04_lblCompanyABN">31251544956</span></span><br />
+                  <span><b>Email: </b>
+                    <span id="ctl04_lblCompanyEmail">aussiesmarketplace@gmail.com</span>
+                  </span>
+                  <span><b>Phone: </b>
+                    <span id="ctl04_lblCompanyPhone">0430496430</span>
+                  </span>
+                  <span><b>ABN: </b>
+                    <span id="ctl04_lblCompanyABN">31251544956</span>
+                  </span>
                 </div>
               </section>
               <hr />
               <div className="clearfix" />
-              <section className="invoice-section section" style={{ marginTop: '0px', display: 'inline-block', float: 'left', padding: '7px' }}>
+              <div className="inv-details">
+              <section className="invoice-section section" >
                 <div className="first"  >Invoice</div>
-                <div className="second"><span >Date: <span id="ctl04_lblDate">12/02/2021</span></span></div>
-                <div><span className="second" >Invoice No: <span id="ctl04_lblOrderNo">{invoice.selectedInvoice.invoiceNumber}</span></span></div>
+                <div className="second"><span><b>Date: </b><span id="ctl04_lblDate">12/02/2021</span></span></div>
+                <div className="second"><span><b>Invoice # </b><span id="ctl04_lblOrderNo">{invoice.selectedInvoice.invoiceNumber}</span></span></div>
               </section>
-              <section className="invoice-section section1" >
+              <section className="invoice-section section" >
                 {invoice.selectedInvoice ?
-                  <div >
-                    <span className="first" ><b>Customer Details</b></span><br />
-                    <span className="second" style={{ display: 'inline-block', minWidth: '30px' }}>
-                      <b>Name: <span id="ctl04_lblClientName">
+                  <>
+                    <div className="first">Customer Details</div>
+                      <div><span className="second" >
+                      <b>Company Name: </b><span >
+                        {invoice.selectedInvoice.companyName}
+                      </span>
+                      </span>
+                      </div>
+                      
+                    <div><span className="second" >
+                      <b>Name: </b><span >
                         {invoice.selectedInvoice.clientName}
                       </span>
-                      </b>
+                      
                     </span>
-                    <br />
-                    <span className="second">Email:
+                    </div>
+                    <div><span className="second"><b>Email: </b>
                   <span id="ctl04_lblClientEmail">
                         {invoice.selectedInvoice.email}
                       </span>
                     </span>
-                    <br />
-                    <span className="second" >Phone:
+                    </div>
+                    <div><span className="second" ><b>Phone: </b>
                   <span id="ctl04_lblClientPhone">
                         {invoice.selectedInvoice.phone}
                       </span>
                     </span>
-                    <br />
-                    <span className="second" >ABN:
+                    </div>
+                    <div><span className="second" ><b>ABN: </b>
                   <span id="ctl04_lblClientABN">
                         {invoice.selectedInvoice.ABN}
                       </span>
                     </span>
-                    <br />
-                  </div> : <></>}
-              </section>
+                    </div>
+                  </> : <></>}
+                </section>
+                </div>
               <div className="clearfix" />
 
 
@@ -210,13 +225,11 @@ function GenerateInvoice() {
 
 
               <section className="sums" >
-                <div className="row">
 
 
 
 
 
-                  <div className="col-md-6">
                     <table className="first1 " >
                       <tbody className=" mob"  >
                         <tr className="amount-total  mob">
@@ -227,17 +240,14 @@ function GenerateInvoice() {
                         </tr>
                         
                         <tr className="amount-total">
-                          <td className="second">Amount Paid: $<span id="ctl04_lblPaidAmount">{paidAmount}</span></td>
+                          <td className="third">Amount Paid: $<span id="ctl04_lblPaidAmount">{paidAmount}</span></td>
                         </tr>
                         <tr className="amount-total">
-                          <td className="second">Balance Amount: $<span id="ctl04_lblBalanceAmount">{balanceAmount}</span></td>
+                          <td className="third">Balance Amount: $<span id="ctl04_lblBalanceAmount">{balanceAmount}</span></td>
                         </tr>
                       </tbody></table>
-                  </div>
-                  <div className="col-md-6">
                     <div className="payment-info" dangerouslySetInnerHTML={{__html: foot}} />
 
-                  </div>
 
 
 
@@ -252,25 +262,26 @@ function GenerateInvoice() {
                     </div>
                 </div> */}
               
-                </div>
               </section>
               <br />
               {balanceFlag ?
                 <section>
                   <div className="paywithstripe">
                     <p>Would you like to pay using your Debit/Credit Card?</p>
-                    <span>
-                      <input onChange={(e) => SetStripePayment(e.target.value)} id="pay-yes" type="radio" name="pay-now" value='yes' />
-                      <label htmlFor="pay-yes">Yes</label>
-                    </span>
-                    <span>
-                      <input onChange={(e) => SetStripePayment(e.target.value)} defaultChecked id="pay-no" type="radio" name="pay-now" value='no' />
-                      <label htmlFor="pay-no">No</label>
-                    </span>
+                    <div>
+                      <span>
+                        <input onChange={(e) => SetStripePayment(e.target.value)} id="pay-yes" type="radio" name="pay-now" value='yes' />
+                        <label htmlFor="pay-yes">Yes</label>
+                      </span>
+                      <span>
+                        <input onChange={(e) => SetStripePayment(e.target.value)} defaultChecked id="pay-no" type="radio" name="pay-now" value='no' />
+                        <label htmlFor="pay-no">No</label>
+                      </span>
+                      </div>
                   </div>
               
                   {stripePayment === 'yes' ?
-                    <StripeCard pay={balanceAmount} /> : <></>}
+                    <StripeCard pay={balanceAmount} email={invoice.selectedInvoice.email} paidAmount={paidAmount} /> : <></>}
                 </section> : <></>}
               <br />
               <section className="admin-use">

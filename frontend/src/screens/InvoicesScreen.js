@@ -72,7 +72,15 @@ function InvoicesScreen(props) {
                     <i className="fa fa-file" aria-hidden="true" />
                   </div> */}
                   <div className="details">
-                    <div><b>{v.companyName}</b></div>
+                    <div><b>{v.companyName} (${v.totalAmount})</b></div>
+                    <div>
+                      <span className="first">
+                        {v.invoiceNumber}
+                      </span>
+                      <span>
+                        {v._id}
+                          </span>
+                    </div>
                     <div>
                       <span className="first">
                         {v.clientName}

@@ -46,7 +46,12 @@
         #memo{
             display: flex;
             justify-content: space-between;
-            flex-wrap: wrap;
+            margin-bottom: 10px;
+
+            
+        }
+        #memo>div{
+            max-width: 40%;
         }
         #memo div span{
             color: '#0b4978';
@@ -60,26 +65,30 @@
         height: 4px;
         
         } 
+        .inv-details{
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+        .inv-details>section{
+
+        }
         .container-fluid  .second .dvMainInvoice .section{
-            float: right;
-            text-align: right;
-            margin-top: 20px !important;
 
 
 
         }
-        .container-fluid  .second .dvMainInvoice .invoice-section .first{
+    .container-fluid  .second .dvMainInvoice .invoice-section .first{
 
-display: block;
-color: #FB5859;
-font-size: 20px!important;
-font-weight: bold;  
-margin-top: -10px; 
+        display: block;
+        color: #FB5859;
+        font-size: 26px!important;
+        font-weight: bold;  
     
     }
     .container-fluid  .second .dvMainInvoice .section .second span{
-text-align: left;
-font-size: 18px;
+        text-align: left;
+        font-size: 14px;
 
     }
     .container-fluid  .second .dvMainInvoice .section1 div{
@@ -103,8 +112,8 @@ font-size: 18px;
                   
 
         }
-        .container-fluid  .second .dvMainInvoice .below #ctl04_lblGST{
-            padding: 20px;
+        .container-fluid  .second .dvMainInvoice .below>div{
+            width: 100%;
         } 
         .container-fluid  .second .dvMainInvoice .items table thead .first{
 width: 75%;
@@ -143,8 +152,11 @@ text-align: justify;
                   }    
 
             .container-fluid  .second .dvMainInvoice .sums{
-                position: relative;
                 margin-top: 40px;
+                display: flex;
+                flex-direction: row-reverse;
+                align-items: center;
+                justify-content: space-evenly;
             }
             .payment-info {
                     font-size: 14px;
@@ -157,24 +169,28 @@ text-align: justify;
              columns: black ;
              font-weight: bold;
             }
-.container-fluid  .second .dvMainInvoice .sums  .row .col  .first1{
-    width: 50%;
+.container-fluid  .second .dvMainInvoice .sums .first1{
+    width: 40%;
     margin-left: auto;   
 
 }
 
-.container-fluid  .second .dvMainInvoice .sums  .row .col  .first1 tbody .amount-total .first{
+.container-fluid  .second .dvMainInvoice .sums .first1 tbody .amount-total .first{
     width: 20%;
     text-align: right;
 
 }
-.container-fluid  .second .dvMainInvoice .sums  .row .col  .first1 tbody .amount-total .second{
-    width: 80%;
-    text-align: right;
-    font-size: 28px;
+.container-fluid  .second .dvMainInvoice .sums .first1 tbody .amount-total .second{
+    text-align: left;
+    font-size: 25px;
 
 }
-.container-fluid  .second .dvMainInvoice .sums  .row .col  .first1 tbody .amount-total .td{
+.container-fluid  .second .dvMainInvoice .sums .first1 tbody .amount-total .third{
+    text-align: left;
+    font-size: 18px;
+
+}
+.container-fluid  .second .dvMainInvoice .sums .first1 tbody .amount-total .td{
     width: 80%;
     text-align: right;
     font-size: 28px;
@@ -193,9 +209,13 @@ text-align: justify;
     width: 300px;
 }
 #memo  .second{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 #memo  .second span {
-    font-size: 13px;
+    font-size: 14px;
+    margin-top: 5px;
 }
 .sums table tr th, .sums table tr td {
     min-width: 100px;
@@ -219,10 +239,21 @@ text-align: justify;
         padding: 20px 10px;
         min-width: 100% !important;
         margin: 0 !important;
-        text-align: center !important;
+        text-align: left !important;
     } 
+    #memo{
+        flex-direction: column;
+    }
+    #memo>div{
+        min-width: 100%;
+    }
+    .inv-details{
+        flex-direction: column;
+    }
     .dvMainInvoice #memo .second {
-        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
     }
     .dvMainInvoice .sums .row>div{
         width: 100% !important;
@@ -240,22 +271,24 @@ text-align: justify;
     .container-fluid  .second .dvMainInvoice .section1 div{
         font-weight: 18px;
     }
-    .container-fluid  .second .dvMainInvoice .sums  .row .col  .first1 tbody .amount-total
-     th{
-        width:0 !important;
-        background-color: white !important;
+    .container-fluid  .second .dvMainInvoice .sums{
+        flex-direction: column;
+    }
+    .container-fluid .second .dvMainInvoice .sums .first1 {
+        width: 100%;
+        margin-bottom: 20px;
     }
     .container-fluid  .second .dvMainInvoice .section1 div{
         text-align: center;
         font-weight: 18px;
     }
-    .container-fluid  .second .dvMainInvoice .sums  .row .col  .first1 tbody .amount-total .second{
+    .container-fluid  .second .dvMainInvoice .sums.first1 tbody .amount-total .second{
         width: 100%;
         text-align: right;
         font-size: 20px;
     
     }
-    .container-fluid  .second .dvMainInvoice .below div
+    .container-fluid  .second .dvMainInvoice .below>div
         {
             
             float: right;
@@ -266,16 +299,8 @@ text-align: justify;
             font-size: 12px;
             font-style: italic;
             margin-top: 10px;
-            
-              }    
-   
-   
-   
-   
-   
-               .sums .col{
-        flex: 0 0 100%;
-    }
+            width: 100%;
+              }   
     .container-fluid  .second .dvMainInvoice .section1{
         margin: 0px;
         padding-left: 0px;
@@ -349,7 +374,7 @@ th{
             }
     .container-fluid  .second .dvMainInvoice .section{
         float: left;
-        text-align: center;
+        text-align: left;
         margin-top: 20px;
         width: 100%;
     }

@@ -1,27 +1,41 @@
 import {useStripe, useElements, CardElement} from '@stripe/react-stripe-js';
 import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux';
+import { updatePaymentDetails } from '../../actions/invoiceActions';
+import { serverAddress } from '../../constants/dbConstants';
 
- const CARD_ELEMENT_OPTIONS = {
+const CARD_ELEMENT_OPTIONS = {
+   hidePostalCode:true,
     style: {
       base: {
-        color: "#32325d",
-        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-        fontSmoothing: "antialiased",
-        fontSize: "16px",
-        "::placeholder": {
-          color: "#aab7c4",
+        color: '#fff',
+        fontWeight: 600,
+        fontFamily: 'Quicksand, Open Sans, Segoe UI, sans-serif',
+        fontSize: '16px',
+        fontSmoothing: 'antialiased', ':focus': { color: '#424770', },
+        '::placeholder': {
+          color: '#9BACC8',
+        }, ':focus::placeholder': {
+          color: '#CFD7DF',
         },
       },
       invalid: {
-        color: "#fa755a",
-        iconColor: "#fa755a",
+        color: '#fff',
+        ':focus': { color: '#FA755A', },
+        '::placeholder': { color: '#FFCCA5', },
       },
-    },
-  };
- function StripeCard(props) {
+      },
+    };
+function StripeCard(props) {
+    const user = localStorage.getItem('userInfo') ?
+        JSON.parse(localStorage.getItem('userInfo'))
+        : null;
+    const companyId = user.companyId;
+      const invoice = useSelector(state => state.invoiceInfo);
       const stripe = useStripe();
-    const elements = useElements();
-  
+      const elements = useElements();
+      const dispatch = useDispatch();
+      
     const handleSubmit = async (event) => {
     console.log("chal rha h")  
   
@@ -31,7 +45,14 @@ import axios from 'axios'
       }
   
 
-    const res=  await axios.post("http://localhost:5000/pay",{email:"sahheher"})
+      const res = await axios.post(`${serverAddress}/pay`, {
+        _id: invoice.selectedInvoice._id,
+        companyId,
+        email: props.email,
+        payAmount: props.pay,
+        paidAmount: props.paidAmount,
+        
+      })
     const  clientSecret=res.data["client_secret"];
     console.log(  "lali", clientSecret)
 
@@ -48,8 +69,10 @@ import axios from 'axios'
         // Show error to your customer (e.g., insufficient funds)
         console.log(result.error.message);
       } else {
+        dispatch(updatePaymentDetails(invoice.selectedInvoice._id, [...invoice.selectedInvoice.paymentList,{payValue:props.pay,payMethod:'stripe',date:clientSecret.date}]));
         // The payment has been processed!
         if (result.paymentIntent.status === 'succeeded') {
+
          console.log("data agy")
         }
       }
