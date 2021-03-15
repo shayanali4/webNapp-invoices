@@ -38,12 +38,14 @@ const companySchema = new mongoose.Schema({
             totalAmount: {type: Number},
             paidAmount: {type: Number},
             balanceAmount: { type: Number },
+            createdDate: {type: String},
             paymentList: [
                 {
                     payValue: { type: Number, required: true},
                     payMethod: { type: String },
-                    date: { type: String }
-                }
+                    payDate: { type: String }
+                },
+            
             ],
             listItems: [
                 {

@@ -53,30 +53,53 @@ function StripeCard(props) {
         paidAmount: props.paidAmount,
         
       })
-    const  clientSecret=res.data["client_secret"];
-    console.log(  "lali", clientSecret)
+    const  paymentIntent=res.data;
+    console.log(  "lali", paymentIntent)
 
-      const result = await stripe.confirmCardPayment(clientSecret, {
+      const result = await stripe.confirmCardPayment(paymentIntent.client_secret, {
         payment_method: {
           card: elements.getElement(CardElement),
           billing_details: {
-            email: 'Jenny Rosen',
+            email: 'shayanali4@live.com',
           },
         }
       });
   
       if (result.error) {
         // Show error to your customer (e.g., insufficient funds)
-        console.log(result.error.message);
+        console.log("hello from error",result.error.message);
       } else {
-        dispatch(updatePaymentDetails(invoice.selectedInvoice._id, [...invoice.selectedInvoice.paymentList,{payValue:props.pay,payMethod:'stripe',date:clientSecret.date}]));
+        alert(`You have successfully paid $${props.pay} using Stripe`)
+        console.log("hello from success");
+        const payDate = GetFormattedDate()
+        const tempData = {
+          _id: invoice.selectedInvoice._id,
+          payValue: props.pay,
+          payMethod: 'stripe',
+          payDate: payDate
+        }
+        dispatch(updatePaymentDetails(tempData._id,tempData.payMethod,tempData.payValue,tempData.payDate));
         // The payment has been processed!
         if (result.paymentIntent.status === 'succeeded') {
 
          console.log("data agy")
         }
       }
-    };
+  };
+    const GetFormattedDate=()=> {
+    var todayTime = new Date();
+    var month = todayTime.getMonth()+1;
+    var day = todayTime.getDate();
+    var year = todayTime.getFullYear();
+    var hours = todayTime.getHours();
+    var minutes = todayTime.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return day + "/" + month + "/" + year + " , " + strTime;
+  }
      return (
          
          <div className="stripe-payment">

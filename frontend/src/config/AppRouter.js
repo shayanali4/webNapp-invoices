@@ -13,6 +13,7 @@ import ConfigurationScreen from '../screens/ConfigrationScreen';
 import GenerateInvoice from '../screens/GenerateInvoice/GenerateInvoice';
 import CustomersScreen from '../screens/CustomersScreen';
 import EditCustomersScreen from '../screens/EditCustomersScreen';
+import TestPDF from '../screens/TestPDF';
 import Payment from '../components/Payment';
 
 export default class Routers extends Component {
@@ -30,6 +31,7 @@ export default class Routers extends Component {
                 <Route path='/customers/edit' component={EditCustomersScreen} />
                 <Route path='/configuration' component={ConfigurationScreen} />
                 <Route path='/payment' component={Payment} />
+                <Route path='/pdf' component={TestPDF} />
             </Router>
        )
     }

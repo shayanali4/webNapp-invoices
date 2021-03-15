@@ -106,6 +106,7 @@ function InvoiceDetailsScreen(props) {
   console.log("list items",listItems)
   const submitHandler = () => {
     const totalAmount = listItems.reduce((prev, next) => prev + next.price, 0);
+    const date = GetFormattedDate();
 
     const generatedInvoice = {
       clientName: choosenClient.clientName,
@@ -117,10 +118,19 @@ function InvoiceDetailsScreen(props) {
       totalAmount: totalAmount,
       paidAmount: 0,
       balanceAmount: totalAmount,
+      createdDate: date
     };
     dispatch(newInvoice(generatedInvoice));
 
     props.history.push('/generate');
+  }
+    const GetFormattedDate=()=> {
+    var todayTime = new Date();
+    var month = todayTime.getMonth()+1;
+    var day = todayTime.getDate();
+    var year = todayTime.getFullYear();
+
+    return day + "/" + month + "/" + year;
   }
     return (
       <>

@@ -33,7 +33,8 @@ invoiceRouter.post('/new', expressAsyncHandler(async (req, res) => {
         ABN: req.body.ABN,
         totalAmount: req.body.totalAmount,
         balanceAmount: req.body.balanceAmount,
-        paidAmount: req.body.paidAmount
+        paidAmount: req.body.paidAmount,
+        createdDate: req.body.createdDate
         // ListItems: req.body.listItems
     };
     // console.log(req.body)
@@ -55,28 +56,23 @@ invoiceRouter.post('/new', expressAsyncHandler(async (req, res) => {
 
 invoiceRouter.post('/updatepayment', expressAsyncHandler(async (req, res) => {
     // const invoiceNumber = `INV${Math.floor(1000 + Math.random() * 9000)}`;
-    // const newInvoice = {
-    //     invoiceNumber: invoiceNumber,
-    //     clientName: req.body.clientName,
-    //     email: req.body.email,
-    //     phone: req.body.phone,
-    //     address: req.body.address,
-    //     ABN: req.body.ABN,
-    //     totalAmount: req.body.totalAmount,
-    //     balanceAmount: req.body.balanceAmount,
-    //     paidAmount: req.body.paidAmount
-    //     // ListItems: req.body.listItems
-    // };
-    // console.log(req.body)
+    const newPayment = {
+        payValue: req.body.payValue,
+        payDate: req.body.payDate,
+        payMethod:req.body.payMethod
+    };
     // newInvoice.listItems = [...req.body.listItems];
     // console.log("new Invoice",newInvoice)
-    let company = await Company.findOne({ _id: req.body.companyId });
-    // company.invoices.push(newInvoice);
+    
+    let company = await Company.findOne({ _id: req.body.companyId });    
     let filteredIndex=company.invoices.findIndex(x => x._id == req.body._id);
-    company.invoices[filteredIndex].paymentList = req.body.paymentList;
+    company.invoices[filteredIndex].paymentList.push(newPayment);
     const updatedCompany = await company.save();
+    console.log(updatedCompany.invoices[filteredIndex].paymentList)
+
+
     // company.invoices.listItems=req.body.listItems;
-    // console.log("company",company.invoices[filteredIndex])
+    console.log("company",company.invoices[filteredIndex])
 
     const selectedInvoice = updatedCompany.invoices.filter(x => x._id == req.body._id);
     console.log(selectedInvoice[0])

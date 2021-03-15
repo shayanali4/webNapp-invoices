@@ -58,10 +58,10 @@ app.post('/pay', async (req, res) => {
         currency: 'usd',
         payment_method_types: ['card'],
     });
-    // console.log(paymentIntent)
-    const utcSeconds = paymentIntent.created;
-    let date = new Date(0); // The 0 there is the key, which sets the date to the epoch
-    date.setUTCSeconds(utcSeconds);
+    console.log(paymentIntent.client_secret)
+    // const utcSeconds = paymentIntent.created;
+    // let date = new Date(0); // The 0 there is the key, which sets the date to the epoch
+    // date.setUTCSeconds(utcSeconds);
     
     const paymentData = {
         amount: paymentIntent.amount,
@@ -69,7 +69,7 @@ app.post('/pay', async (req, res) => {
         email: req.body.email,
         liveMode: paymentIntent.liveMode,
         _id: paymentIntent.id,
-        date: date,
+        client_secret:paymentIntent.client_secret,
         isPaid: true
     };
     let company = await Company.findOne({ _id: req.body.companyId });
@@ -79,7 +79,8 @@ app.post('/pay', async (req, res) => {
     company.invoices[filteredIndex].totalAmount = paymentData.amount + req.body.paidAmount;
     company.invoices[filteredIndex].balance =  0;
     const updatedCompany = await company.save();
-    res.json({ client_secret: paymentData });
+    res.json(paymentData);
+    // res.send(paymentIntent.client_secret)
   });
 
 app.get('/', (req, res) => {

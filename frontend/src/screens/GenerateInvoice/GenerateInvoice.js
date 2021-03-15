@@ -10,6 +10,8 @@ import { sendEmailBackend } from '../../actions/emailActions';
 import { updatePaymentDetails } from '../../actions/invoiceActions';
 import StripePayment from '../../components/StripePayment/StripePayment';
 import StripeCard from '../../components/StripeCard/StripeCard';
+import ReactPDF from '@react-pdf/renderer';
+
 
 function GenerateInvoice() {
   const [smsModal, setSmsModal] = useState(false);
@@ -87,17 +89,19 @@ function GenerateInvoice() {
     e.preventDefault();
     const date = GetFormattedDate();
     setPayDate(date)
-    setPaymentList(oldArray => [...oldArray, { payMethod, payValue, date }]);
-    setPayValue('');
-    
+    setPaymentList(oldArray => [...oldArray, { payMethod, payValue, payDate }]);    
   };
 
   useEffect(() => {
     if (invoice.selectedInvoice) {
-      if (paymentList.length >= 1) {
-        dispatch(updatePaymentDetails(invoice.selectedInvoice._id, paymentList));
+      if (paymentList.length >= 0) {
+        console.log("iam here",payMethod,payValue,payDate)
+        dispatch(updatePaymentDetails(invoice.selectedInvoice._id, payMethod, payValue, payDate ));
       }
-    }
+    };
+    // setPayDate('');
+    // setPayValue('');
+    // setPayMethod('');
     }, [paymentList]);
 
   const GetFormattedDate=()=> {
@@ -120,6 +124,10 @@ function GenerateInvoice() {
   const sendEmail = () => {
     dispatch(sendEmailBackend(receiver,emailTemplate));
   }
+
+  const downloadPDF = () => {
+    
+  };
   console.log('pay==>',paymentList);
     return (
 
@@ -151,7 +159,7 @@ function GenerateInvoice() {
               <div className="inv-details">
               <section className="invoice-section section" >
                 <div className="first"  >Invoice</div>
-                <div className="second"><span><b>Date: </b><span id="ctl04_lblDate">12/02/2021</span></span></div>
+                <div className="second"><span><b>Date: </b><span id="ctl04_lblDate">{invoice.selectedInvoice.createdDate}</span></span></div>
                 <div className="second"><span><b>Invoice # </b><span id="ctl04_lblOrderNo">{invoice.selectedInvoice.invoiceNumber}</span></span></div>
               </section>
               <section className="invoice-section section" >
@@ -263,6 +271,9 @@ function GenerateInvoice() {
                 </div> */}
               
               </section>
+              <br />
+              <Link onClick={()=>downloadPDF()} className='download-btn' to='/pdf'>CLICK HERE TO DOWNLOAD YOUR INVOICE</Link>
+              <br />
               <br />
               {balanceFlag ?
                 <section>
@@ -413,7 +424,7 @@ function GenerateInvoice() {
                             </form>
                       </div>:<></>}
                       <div>
-                        {paymentList.length === 0 ?<></>:
+                        {invoice.selectedInvoice.paymentList.length === 0 ?<></>:
                           <table id="tblSearch" className="table table-hover nowrap my-3">
                             
                           <thead style={{ backgroundColor: "#00CED1" }} >
@@ -422,11 +433,12 @@ function GenerateInvoice() {
                               <th className="second" style={{ width: '25%' }}>Payment Method</th>
                               <th className="second" style={{ width: '15%' }}>Payment Received</th>
                             </tr>
-                          </thead>
+                            </thead>
+                            
                           <tbody>
                             {invoice.selectedInvoice.paymentList.map((v, i) => 
                               <tr key={i}>
-                                <td className="first" style={{ width: '45%' }}>{v.date.toLocaleString()}</td>
+                                <td className="first" style={{ width: '45%' }}>{v.payDate}</td>
                                 <td className="second" style={{ width: '25%' }}>{v.payMethod}</td>
                                 <td className="second" style={{ width: '15%' }}>${v.payValue}</td>
                               </tr>

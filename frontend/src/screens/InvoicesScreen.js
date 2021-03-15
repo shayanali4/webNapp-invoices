@@ -78,7 +78,7 @@ function InvoicesScreen(props) {
                         {v.invoiceNumber}
                       </span>
                       <span>
-                        {v._id}
+                        {v.createdDate}
                           </span>
                     </div>
                     <div>
